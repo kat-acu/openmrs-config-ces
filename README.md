@@ -10,7 +10,7 @@ In order to facilitate deploying configurations easily into an OpenMRS SDK serve
 to either of the above commands to specify that the compiled configuration should also be copied to an existing 
 OpenMRS SDK server:
 
-`mvn clean compile -DserverId=wellbody` - Will compile as above, and copy the resulting configuration to `~/openmrs/wellbody/configuration`
+`mvn clean compile -DserverId=ces` - Will compile as above, and copy the resulting configuration to `~/openmrs/ces/configuration`
 
 If the configuration package you are building will be depended upon by another configuration package, you must "install" it
 in order for the other package to be able to pick it up.
