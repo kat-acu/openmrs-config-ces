@@ -154,7 +154,7 @@
          width: 95%;
         }
 
-        .legend {
+        legend {
           width: auto;
           font-size: 16px;
         }
