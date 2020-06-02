@@ -71,5 +71,5 @@
       }
     }
   },
-  "dispositionConfig": "pih-dispositions-default.json"
+  "dispositionConfig": "file:configuration/pih/pih-dispositions-default.json"
 }
