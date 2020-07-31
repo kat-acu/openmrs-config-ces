@@ -5,5 +5,11 @@
   "site": "SOLEDAD",
 
   "primaryIdentifierPrefix": "SOL",
-  "providerIdentifierPrefix": "SOL"
+  "providerIdentifierPrefix": "SOL",
+
+  "locationTags": {
+    "Login Location": [
+      "Soledad"
+    ]
+  }
 }

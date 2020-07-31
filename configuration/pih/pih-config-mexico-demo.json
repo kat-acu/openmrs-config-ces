@@ -6,5 +6,12 @@
   "site": "REFORMA",
 
   "primaryIdentifierPrefix": "DEM",
-  "providerIdentifierPrefix": "DEM"
+  "providerIdentifierPrefix": "DEM",
+
+  "locationTags": {
+    "Login Location": [
+      "Hospital",
+      "CES Oficina"
+    ]
+  }
 }

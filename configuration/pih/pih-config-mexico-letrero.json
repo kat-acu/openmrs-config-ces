@@ -5,5 +5,11 @@
   "site": "LETRERO",
 
   "primaryIdentifierPrefix": "LET",
-  "providerIdentifierPrefix": "LET"
+  "providerIdentifierPrefix": "LET",
+
+  "locationTags": {
+    "Login Location": [
+      "Letrero"
+    ]
+  }
 }

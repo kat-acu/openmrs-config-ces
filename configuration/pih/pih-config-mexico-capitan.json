@@ -5,5 +5,11 @@
   "site": "CAPITAN",
 
   "primaryIdentifierPrefix": "CAP",
-  "providerIdentifierPrefix": "CAP"
+  "providerIdentifierPrefix": "CAP",
+
+  "locationTags": {
+    "Login Location": [
+      "Capitan"
+    ]
+  }
 }

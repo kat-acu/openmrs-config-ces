@@ -5,5 +5,12 @@
   "site": "PLAN_DE_LA_LIBERTAD",
 
   "primaryIdentifierPrefix": "PLA",
-  "providerIdentifierPrefix": "PLA"
+  "providerIdentifierPrefix": "PLA",
+
+  "locationTags": {
+    "Login Location": [
+      "Plan Alta",
+      "Plan Baja"
+    ]
+  }
 }

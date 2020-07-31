@@ -5,5 +5,11 @@
   "site": "LAGUNA_DEL_COFRE",
 
   "primaryIdentifierPrefix": "LAG",
-  "providerIdentifierPrefix": "LAG"
+  "providerIdentifierPrefix": "LAG",
+
+  "locationTags": {
+    "Login Location": [
+      "Laguna del Cofre"
+    ]
+  }
 }
