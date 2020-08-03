@@ -5,5 +5,11 @@
   "site": "MATAZANO",
 
   "primaryIdentifierPrefix": "MAT",
-  "providerIdentifierPrefix": "MAT"
+  "providerIdentifierPrefix": "MAT",
+
+  "locationTags": {
+    "Login Location": [
+      "Matazano"
+    ]
+  }
 }

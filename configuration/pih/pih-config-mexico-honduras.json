@@ -5,5 +5,11 @@
   "site": "HONDURAS",
 
   "primaryIdentifierPrefix": "HON",
-  "providerIdentifierPrefix": "HON"
+  "providerIdentifierPrefix": "HON",
+
+  "locationTags": {
+    "Login Location": [
+      "Honduras"
+    ]
+  }
 }

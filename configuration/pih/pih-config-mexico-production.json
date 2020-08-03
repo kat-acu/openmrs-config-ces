@@ -6,5 +6,12 @@
   "site": "CES_CLOUD",
 
   "primaryIdentifierPrefix": "CES",
-  "providerIdentifierPrefix": "CES"
+  "providerIdentifierPrefix": "CES",
+
+  "locationTags": {
+    "Login Location": [
+      "Hospital",
+      "CES Oficina"
+    ]
+  }
 }

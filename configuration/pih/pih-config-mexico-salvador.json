@@ -5,5 +5,11 @@
   "site": "SALVADOR",
 
   "primaryIdentifierPrefix": "SAL",
-  "providerIdentifierPrefix": "SAL"
+  "providerIdentifierPrefix": "SAL",
+
+  "locationTags": {
+    "Login Location": [
+      "Salvador"
+    ]
+  }
 }

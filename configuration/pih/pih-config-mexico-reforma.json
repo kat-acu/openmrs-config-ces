@@ -5,5 +5,11 @@
   "site": "REFORMA",
 
   "primaryIdentifierPrefix": "REF",
-  "providerIdentifierPrefix": "REF"
+  "providerIdentifierPrefix": "REF",
+
+  "locationTags": {
+    "Login Location": [
+      "Reforma"
+    ]
+  }
 }
