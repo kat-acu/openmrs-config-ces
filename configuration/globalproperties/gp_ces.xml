@@ -23,7 +23,7 @@
         </globalProperty>
         <globalProperty>
             <property>log.level</property>
-            <value>org.openmrs.api:warn</value>
+            <value>org.openmrs.api:info</value>
         </globalProperty>
     </globalProperties>
 </config>
