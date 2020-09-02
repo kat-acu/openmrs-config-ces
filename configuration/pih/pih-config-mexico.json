@@ -40,13 +40,13 @@
   },
   "locationTags": {
     "Identifier Assignment Location": ["Chiapas"],
-    "Consult Note Location": ["Hospital", "CES Oficina", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
-    "Registration Location": ["Hospital", "CES Oficina", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
-    "Visit Location": ["Hospital", "CES Oficina", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
-    "Program Location": ["Hospital", "CES Oficina", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
-    "Vitals Location": ["Hospital", "CES Oficina", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
-    "Medical Record Location": ["Hospital", "CES Oficina", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
-    "Provider Management Location": ["Hospital", "CES Oficina", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"]
+    "Consult Note Location": ["Hospital", "CES Oficina", "Casa Materna", "CER", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
+    "Registration Location": ["Hospital", "CES Oficina", "Casa Materna", "CER", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
+    "Visit Location": ["Hospital", "CES Oficina", "Casa Materna", "CER", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
+    "Program Location": ["Hospital", "CES Oficina", "Casa Materna", "CER", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
+    "Vitals Location": ["Hospital", "CES Oficina", "Casa Materna", "CER", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
+    "Medical Record Location": ["Hospital", "CES Oficina", "Casa Materna", "CER", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
+    "Provider Management Location": ["Hospital", "CES Oficina", "Casa Materna", "CER", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"]
   },
   "registrationConfig": {
     "allowUnknownPatients": false,
