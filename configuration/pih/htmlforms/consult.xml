@@ -1487,7 +1487,7 @@
         <script type="text/javascript">
             // @bistenes: forgive me
             function print_prescription() {
-                const w = window.open();
+                const w = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
                 const styleNodes = document.getElementsByTagName("style");
                 for (var i = 0; i &lt; styleNodes.length; i++) {
                     const styleNode = styleNodes[i];
@@ -1555,8 +1555,12 @@
                     "&lt;/style&gt;"
                 );
                 w.document.write("</body>");
-                w.print();
-                w.close();
+                w.document.close();
+                w.setTimeout(() => {
+                    w.focus();
+                    w.print();
+                    w.close();
+                }, 1000);
             }
         </script>
 
