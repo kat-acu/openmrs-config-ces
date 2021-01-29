@@ -6,6 +6,7 @@
   "components": [
     "allergies",
     "ancProgram",
+    "archives",
     "asthmaProgram",
     "bmiOnClinicianDashboard",
     "chwApp",
@@ -15,6 +16,7 @@
     "epilepsyProgram",
     "hypertensionProgram",
     "malnutritionProgram",
+    "managePrinters",
     "mentalHealthProgram",
     "myAccount",
     "overviewReports",
@@ -39,6 +41,7 @@
     "shortcutField": "cityVillage"
   },
   "locationTags": {
+    "Archives Location": ["CES Oficina"],
     "Identifier Assignment Location": ["Chiapas"],
     "Consult Note Location": ["Hospital", "CES Oficina", "Casa Materna", "CER", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
     "Registration Location": ["Hospital", "CES Oficina", "Casa Materna", "CER", "Capitan", "Honduras", "Laguna del Cofre", "Letrero", "Matazano", "Plan Alta", "Plan Baja", "Reforma", "Salvador", "Soledad"],
