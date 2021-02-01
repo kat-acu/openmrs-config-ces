@@ -25,5 +25,10 @@
             <property>log.level</property>
             <value>org.openmrs.api:info</value>
         </globalProperty>
+        <globalProperty>
+            <property>emr.paperRecordIdentifierType</property>
+            <!-- Patient Identifier: Expediente -->
+            <value>9124b296-d14d-4222-862d-44867e728812</value>
+        </globalProperty>
     </globalProperties>
 </config>
