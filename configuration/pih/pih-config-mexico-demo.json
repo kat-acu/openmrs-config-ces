@@ -8,6 +8,35 @@
   "primaryIdentifierPrefix": "DEM",
   "providerIdentifierPrefix": "DEM",
 
+  "components": [
+    "allergies",
+    "ancProgram",
+    "archives",
+    "asthmaProgram",
+    "bmiOnClinicianDashboard",
+    "chwApp",
+    "clinicianDashboard",
+    "dataExports",
+    "diabetesProgram",
+    "epilepsyProgram",
+    "hypertensionProgram",
+    "malnutritionProgram",
+    "managePrinters",
+    "mentalHealthProgram",
+    "myAccount",
+    "overviewReports",
+    "patientDocuments",
+    "patientRegistration",
+    "primaryCare",
+    "programs",
+    "providerRelationships",
+    "relationships",
+    "systemAdministration",
+    "todaysVisits",
+    "visitManagement",
+    "vitals"
+  ],
+  
   "locationTags": {
     "Login Location": [
       "Hospital",

@@ -6,7 +6,6 @@
   "components": [
     "allergies",
     "ancProgram",
-    "archives",
     "asthmaProgram",
     "bmiOnClinicianDashboard",
     "chwApp",
@@ -16,7 +15,6 @@
     "epilepsyProgram",
     "hypertensionProgram",
     "malnutritionProgram",
-    "managePrinters",
     "mentalHealthProgram",
     "myAccount",
     "overviewReports",
