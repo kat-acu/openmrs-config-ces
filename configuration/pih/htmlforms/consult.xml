@@ -56,6 +56,17 @@
             width: 50%;
         }
 
+        .tres-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .tres-columns > div {
+            display: table-cell;
+            width: 35%;
+        }
+
         .three-columns {
             column-count: 3;
             -webkit-column-count: 3;
@@ -187,7 +198,7 @@
         #encounter-diagnoses-app {
             margin-bottom: 20px;
         }
-
+        
     </style>
 
     <div class="print-form-datestamps" style="display:none">
@@ -358,10 +369,16 @@
                 <uimessage code="pihcore.referredBy"/>
             </label>
             <obs conceptId="PIH:6189" id="referredBy"
+<<<<<<< HEAD
                  answerConceptIds="PIH:12611,PIH:12612,PIH:12613,CIEL:1555,PIH:12614"
                  answerCodes="pihcore.hasAppointment,pihcore.walkIn,pihcore.activeCasefinding"
                  style="radio" answerSeparator=""
             />
+=======
+                 answerConceptIds="PIH:12611,PIH:12612,PIH:12613,CIEL:1555"
+                 answerCodes="pihcore.hasAppointment,pihcore.walkIn,pihcore.activeCasefinding,pihcore.chw"
+                 style="radio" answerSeparator=""/>
+>>>>>>> d76f323104540f4bef147c77e17e20c2ae4406b3
         </div>
     </section>
 
@@ -1203,6 +1220,134 @@
             </div>
         </div>
     </section>
+
+    <!-- Prevencion de control de infecciones -->
+     <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Prevención de control de infecciones">
+      <!-- TB -->
+        <div class="section-container">
+            <div class="two-columns">
+                <div class="small-text">
+
+                    <obs conceptId="PIH:Is TB suspected" 
+                         answerConceptId="PIH:Suspected tuberculosis" 
+                         answerLabel="Sospecha de Tuberculosis" 
+                         toggle="OptionsTB"/>
+                    
+                </div>
+                <div id="OptionsTB">
+
+                    <p>Resultado de prueba:</p>
+                    <obs conceptId="PIH:Tuberculosis culture result"
+                         answerConceptIds="PIH:NOT DONE,PIH:NEGATIVE,PIH:POSITIVE" 
+                         style="radio"
+                         answerSeparator=""/>
+                    <br/> 
+
+                    <obs conceptId="PIH:Suspected TB free-text notes" 
+                         style="textarea"
+                         labelText="Observaciones:" 
+                         rows="5"/>
+                                               
+                </div>        
+            </div>
+        </div>
+
+        <!-- VIH -->
+        <div class="section-container">
+            <div class="two-columns">
+                <div class="small-text">
+
+                    <obs conceptId="PIH:Is HIV suspected" 
+                         answerConceptId="PIH:Suspected HIV infection" 
+                         answerLabel="Sospecha de VIH" 
+                         toggle="OptionsVIH"/>
+                    
+                </div>
+                <div id="OptionsVIH">
+
+                    <p>Resultado de prueba:</p>
+                    <obs conceptId="PIH:RESULT OF HIV TEST" 
+                         answerConceptIds="PIH:NOT DONE,PIH:NEGATIVE,PIH:POSITIVE" 
+                         style="radio"
+                         answerSeparator=""/>
+                    <br/>  
+
+                    <obs conceptId="PIH:Suspected HIV free-text notes" 
+                         style="textarea"
+                         labelText="Observaciones:"  
+                         rows="5"/>             
+                    
+                </div> 
+            </div>
+        </div>
+   
+        <!-- COVID -->
+        <div class="section-container">
+            <div class="tres-columns">
+                <div class="small-text">
+
+                    <obs conceptId="PIH:Is COVID suspected" 
+                         answerConceptId="CIEL:165612" 
+                         answerLabel="Sospecha de Covid-19" 
+                         toggle="TipoPruebaCovid"/>                
+                </div>
+
+                <div id="TipoPruebaCovid">     
+
+                   <p>Tipo de prueba:</p>           
+                   <obs id="whattype"
+                        conceptId="PIH:Type of COVID test" 
+                        answerConceptIds="CIEL:165840,CIEL:165853,CIEL:165852" 
+                        answerLabels="PCR,Anticuerpos,Antigeno" 
+                        style="radio" 
+                        answerSeparator="">
+
+                        <controls>
+                            <when value="CIEL:165840" thenDisplay="#OptionsPCR"/>
+                            <when value="CIEL:165853" thenDisplay="#OptionsAnticuerpos"/>
+                            <when value="CIEL:165852" thenDisplay="#OptionsAntigeno"/>                          
+                        </controls>
+                   </obs>
+                   <br/>
+
+                   <obs conceptId="PIH:Suspected TB free-text notes" 
+                        style="textarea"
+                        labelText="Observaciones:" 
+                        rows="5"/>
+                   <br/>
+                  
+                </div>
+
+                <div id="OptionsPCR">
+
+                    <p>Resultado PCR:</p>  
+                    <obs conceptId="CIEL:165840" 
+                         answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE" 
+                         style="radio"
+                         answerSeparator=""/>
+                </div> 
+
+                <div id="OptionsAnticuerpos">
+                           
+                    <p>Resultado anticuerpos:</p> 
+                    <obs conceptId="CIEL:165853" 
+                         answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE" 
+                         style="radio" 
+                         answerSeparator=""/>
+                </div>
+
+                <div id="OptionsAntigeno">
+
+                    <p>Resultado antigeno:</p> 
+                    <obs conceptId="CIEL:165852" 
+                         answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE" 
+                         style="radio" 
+                         answerSeparator=""/>
+                </div> 
+            </div>
+        </div>
+    </section>
+    
 
     <!-- Analysis -->
     <ifMode mode="VIEW" include="false">
