@@ -470,12 +470,12 @@
                 </label>
                 <div class="two-columns">
                     <div>
-                        <lookup expression="fn.latestObs('PIH:Daytime asthma symptoms for more than a few minutes more than once/week').obsDatetime" />
-                        <lookup complexExpression="#if($fn.latestObs('PIH:Daytime asthma symptoms for more than a few minutes more than once/week')) &#8194; &#8227; &#8194; #end" />
-                        <lookup expression="fn.latestObs('PIH:Daytime asthma symptoms for more than a few minutes more than once/week').valueCoded.name" />
+                        <lookup expression="fn.latestObs('PIH:Daytime asthma symptoms for more than a few minutes more than once a week').obsDatetime" />
+                        <lookup complexExpression="#if($fn.latestObs('PIH:Daytime asthma symptoms for more than a few minutes more than once a week')) &#8194; &#8227; &#8194; #end" />
+                        <lookup expression="fn.latestObs('PIH:Daytime asthma symptoms for more than a few minutes more than once a week').valueCoded.name" />
                     </div>
                     <div>
-                        <obs conceptId="PIH:Daytime asthma symptoms for more than a few minutes more than once/week"
+                        <obs conceptId="PIH:Daytime asthma symptoms for more than a few minutes more than once a week"
                              answerConceptIds="PIH:YES,PIH:NO"
                              style="radio" answerSeparator="" />
                     </div>
