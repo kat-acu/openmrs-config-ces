@@ -5,10 +5,7 @@
         "alt": "CES"
       },
       "links": {
-        "loginSuccess": {
-          "url": "/mirebalais/home.page",
-          "spa": false
-        }
+        "loginSuccess": "${openmrsBase}/mirebalais/home.page"
       }
     }
   }
