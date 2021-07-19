@@ -220,7 +220,7 @@
 
                 <p id="calculated-bmi-continue">
                     <input type="hidden" name="focus-in-bmi-question" id="hidden-calculated-bmi" />
-                    <uimessage code="mirebalais.vitals.calculatedField.continue"/>
+                    Pulsar tecla Tab o Enter para continuar
                 </p>
             </fieldset>
 
@@ -255,8 +255,8 @@
             <h3><uimessage code="pihcore.lab.isFastingGlucose"/></h3>
             <p>
                 <obs id="fasting-for-glucose" conceptId="PIH:Fasting for blood glucose test"
-                     answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no"
-                     style="radio" answerSeparator="" />
+                     answerConceptIds="PIH:YES,PIH:NO"
+                     style="radio" answerSeparator=""/>
             </p>
         </fieldset>
 
