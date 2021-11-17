@@ -1,0 +1,7 @@
+databaseType: "mysql"
+host: ${datasources.openmrs.saint_marc_hsn.host}
+port: ${datasources.openmrs.saint_marc_hsn.port}
+databaseName: ${datasources.openmrs.saint_marc_hsn.databaseName}
+user: ${datasources.openmrs.saint_marc_hsn.user}
+password: ${datasources.openmrs.saint_marc_hsn.password}
+options: ${datasources.openmrs.saint_marc_hsn.options}
