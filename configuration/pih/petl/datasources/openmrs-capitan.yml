@@ -1,7 +1,7 @@
 databaseType: "mysql"
-host: ${datasources.openmrs.cange.host}
-port: ${datasources.openmrs.cange.port}
-databaseName: ${datasources.openmrs.cange.databaseName}
-user: ${datasources.openmrs.cange.user}
-password: ${datasources.openmrs.cange.password}
-options: ${datasources.openmrs.cange.options}
+host: ${datasources.openmrs.capitan.host}
+port: ${datasources.openmrs.capitan.port}
+databaseName: ${datasources.openmrs.capitan.databaseName}
+user: ${datasources.openmrs.capitan.user}
+password: ${datasources.openmrs.capitan.password}
+options: ${datasources.openmrs.capitan.options}
