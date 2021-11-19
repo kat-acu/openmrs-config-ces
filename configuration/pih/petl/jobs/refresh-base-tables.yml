@@ -12,4 +12,4 @@ configuration:
         jobTemplate:
           path: "import-to-table-partition.yml"
         iterations:
-          - tableName: "test_encounters"
+          - tableName: "test_encounter"
