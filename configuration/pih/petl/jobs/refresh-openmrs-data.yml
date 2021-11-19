@@ -1,12 +1,10 @@
 type: "iterating-job"
-schedule:
-  cron: "0 0 5 ? * *"
 errorHandling:
   maxAttempts: 10
   retryInterval: 15
   retryIntervalUnit: "MINUTES"
 configuration:
-  maxConcurrentJobs: 5  # Import into up to 5 sites concurrently
+  maxConcurrentJobs: 1  # Import 1 site at a time
   iterations:
     - siteName: "cesProd"   #siteName is populated in each table and also used to identify the appropriate data source
       partitionNum: "1"     #partitionNum is used to identify the sqlserver partition that this site's data is loaded into
@@ -28,9 +26,9 @@ configuration:
       partitionNum: "9"
     - siteName: "reforma"
       partitionNum: "10"
-   - siteName: "salvador"
-     partitionNum: "11"
-   - siteName: "soledad"
-     partitionNum: "12"
+    - siteName: "salvador"
+      partitionNum: "11"
+    - siteName: "soledad"
+      partitionNum: "12"
   jobTemplate:
     path: "refresh-base-tables.yml"
