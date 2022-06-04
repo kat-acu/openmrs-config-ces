@@ -19,8 +19,6 @@
           formEncounterType="aa61d509-6e76-4036-a65d-7813c0c3b752"
           formVersion="1.0">
 
-    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ExitPatientFromSelectedProgramsAction"/>
-
     <style type="text/css">
 
         #who-when-where {
