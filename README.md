@@ -55,6 +55,61 @@ https://github.com/openmrs/openmrs-contrib-packager-maven-plugin
 
 ### Configuring Concepts for Chiapas
 
+We currently used two different approaches to install concepts on the Mexico server.  For Diagnoses and Drugs, we are 
+trialing using Initializer as easier and streamlined way to manage the diagnosis and drug lists.  For
+other concepts (such as those used on Mexico forms) we use Metadata Sharing.
+
+#### Adding New Diagnoses
+
+The Diagnoses are groups into 4 Diagnoses sets:
+
+* Mexico primary care diagnosis set (2791)
+* Mexico MCH diagnosis set (5780)
+* Mexico mental diagnosis set (5779)
+* COVID-19 diagnosis set (5019)
+
+Each set has a CSV file that defines all the concepts in the set, found in this directory:
+https://github.com/PIH/openmrs-config-ces/tree/master/configuration/concepts
+
+And then a separate file that explicitly sets up the set membership:
+https://github.com/PIH/openmrs-config-ces/tree/master/configuration/concepts
+
+To add a new concept:
+* Search the Concept server (concepts.pih-emr.org) to determine if the concept currently exists in PIH EMR dictionary
+* If it does not exist, search for it in the CIEL dictionary, using the Open Concept Lab:
+  * Go to "https://openconceptlab.org/" and search for the term
+  * Filter the results to "CIEL" and select the appropriate CIEL concept
+  * (If no appropriate CIEL concept found, more analysis will likely be needed)
+* Once you've found the concept, create a line in the appropriate diagnosis csv file for the new concept:
+  * If the concept exists in the PIH EMR dictionary, set the uuid to the same uuid as the existing concept 
+  * Otherwise, set the uuid to the "External ID" listed for the concept in OCL
+  * Add the Spanish name you want to use as the Fully Specified Name to the "Fully Specified Name:es" column; add any Spanish short name or synonym to the "Short Name:es" column
+    * Ideally, this would be the fully-specified Spanish name as defined on the Concept server or in CIEL
+  * Add the English fully-specified name (taken from the PIH EMR dictionary or the CIEL dictionary) to the "Fully Specified Name:en" column
+  * Add the description to the description column (OPTIONAL)
+  * Add the appropriate Data Class and Data Type to the Data Class and Data Type column (generally "Diagnosis" and "N/A")
+  * Add mapping codes as needed to the concept:
+    * If the concept exists in the PIH EMR Dictionary, add the PIH mappings to the "PIH:Mappings|SAME-AS|PIH|Name" (for alphanumeric) and/or "Mappings|SAME-AS|PIH|Number" (for codes) as appropriate
+    * Add the CIEL mapping to the "Mappings|SAME-AS|CIEL" column  (Look in the "Associations" section of OCL to find the Code, Source, and Relationship... note that it's the "Code" you want, not the "Name)
+    * Add at least one ICD-10-WHO mapping to the appropriate "Mappings|*|ICD-10-WHO" column   (Again, look in the "Associations" section of OCL to find the Code, Source, and Relationship... note that it's the "Code" you want, not the "Name")
+    * Any other mappings can be skipped
+  * Move the row as necessary to maintain alphabetical sorting by "Fully Specified Name:es" (not necessary, but good practice)
+* Update the concept set file:
+  * Create a new row, setting the "Member" column to the "Fully Specified Name:es" of the new concept
+    * Sort alphabetically and update the Sort Weight columns to maintain that order (not necessary, but good practice)
+ 
+
+NOTE/TODO: we may want to consider simplifying this into a single diagnosis set, if this is easier.
+NOTE/TODO: we may want to remove the other mapping columns we aren't using (AMPATH, etc) entirely
+
+#### Adding New Drugs
+
+TODO
+
+#### Configuring other Concepts
+
+(TODO: rework this when we next add a new form? what should the process be here?)
+
 1. On the concepts server (concepts.pih-emr.org), create a "Mexico MoH (Ministry of Health, or equivalent..) concept set", similar to the “[Liberia MoH diagnosis set](https://concepts.pih-emr.org/openmrs/dictionary/concept.htm?conceptId=10595)”. Create child sets, e.g. “Mexico MoH diagnosis”, “Mexico MoH Labs”, etc. Add concepts to these subsets.
 
 2. For each concept in the source data dictionary:
