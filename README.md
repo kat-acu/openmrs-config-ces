@@ -120,7 +120,7 @@ TODO
 
     3. Add this concept to appropriate concept set.
 
-3. In the Metadata Sharing module, create a package called "Mexico Concepts" and create a new version. See example here for “[Liberia Concepts](https://concepts.pih-emr.org/openmrs/module/metadatasharing/export/details.form?group=c0dc491e-a26e-4dee-99c4-c4dc5cb2e787)”.
+3. In the Metadata Sharing module, use the "[Mexico Concepts](https://concepts.pih-emr.org/openmrs/module/metadatasharing/export/details.form?group=b5ee1651-1f90-4371-95da-7c13f8523f8c)" package and create a new version. See example here for “[Liberia Concepts](https://concepts.pih-emr.org/openmrs/module/metadatasharing/export/details.form?group=c0dc491e-a26e-4dee-99c4-c4dc5cb2e787)”.
 
 4. Download the zipped package of this version.
 
