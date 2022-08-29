@@ -63,10 +63,10 @@ other concepts (such as those used on Mexico forms) we use Metadata Sharing.
 
 The Diagnoses are groups into 4 Diagnoses sets:
 
-* Mexico primary care diagnosis set (2791)
-* Mexico MCH diagnosis set (5780)
-* Mexico mental diagnosis set (5779)
-* COVID-19 diagnosis set (5019)
+* Mexico primary care diagnosis set
+* Mexico MCH diagnosis set
+* Mexico mental diagnosis set
+* COVID-19 diagnosis set
 
 Each set has a CSV file that defines all the concepts in the set, found in this directory:
 https://github.com/PIH/openmrs-config-ces/tree/master/configuration/concepts
@@ -97,14 +97,59 @@ To add a new concept:
 * Update the concept set file:
   * Create a new row, setting the "Member" column to the "Fully Specified Name:es" of the new concept
     * Sort alphabetically and update the Sort Weight columns to maintain that order (not necessary, but good practice)
+* Commit your code to a branch and issue a PR for review
  
+To remove a concept:
+* Set the "Void/Retire" column to True for the concept in *both* the concept and concept set files
 
 NOTE/TODO: we may want to consider simplifying this into a single diagnosis set, if this is easier.
+
 NOTE/TODO: we may want to remove the other mapping columns we aren't using (AMPATH, etc) entirely
 
 #### Adding New Drugs
 
-TODO
+Drugs are added via the following three files:
+
+* The csv file that defines the *concepts* that drugs refer to: 
+  * https://github.com/PIH/openmrs-config-ces/blob/master/configuration/concepts/drug-concepts.csv
+* The csv file that groups these concepts into a single set:
+  * https://github.com/PIH/openmrs-config-ces/blob/master/configuration/conceptsets/drug-concept-set.csv 
+* The csv file that defines the actual drug formularies:
+  * https://github.com/PIH/openmrs-config-ces/blob/master/configuration/drugs/drugs.csv
+
+To add new drug, first determine if the drug *concept* already exists in thd drug-concept.csv file.  If not, add the drug as follows:
+* Search the Concept server (concepts.pih-emr.org) to determine if the drug concept currently exists in PIH EMR dictionary
+* If it does not exist, search for it in the CIEL dictionary, using the Open Concept Lab:
+  * Go to "https://openconceptlab.org/" and search for the term
+  * Filter the results to "CIEL" and select the appropriate CIEL concept
+  * (If no appropriate CIEL concept found, more analysis will likely be needed)
+* Once you've found the concept, create a line in the drug-concept.csv file for the new concept:
+  * If the concept exists in the PIH EMR dictionary, set the uuid to the same uuid as the existing concept
+  * Otherwise, set the uuid to the "External ID" listed for the concept in OCL
+  * Add the English fully-specified name (taken from the PIH EMR dictionary or the CIEL dictionary) to the "Fully Specified Name:en" column
+  * Add any Spanish fully-specified name (OPTIONAL) (note that Spanish display text comes from the drug formulary file, defined below, so this name is generally not used)
+  * Add the description to the description column (OPTIONAL)
+  * Add the appropriate Data Class and Data Type to the Data Class and Data Type column (generally "Drug" and "N/A")
+  * Add mapping codes as needed to the concept:
+    * If the concept exists in the PIH EMR Dictionary, add the PIH mappings to the "PIH:Mappings|SAME-AS|PIH|Name" (for alphanumeric) and/or "Mappings|SAME-AS|PIH|Number" (for codes) as appropriate
+    * Add the CIEL mapping to the "Mappings|SAME-AS|CIEL" column  (Look in the "Associations" section of OCL to find the Code, Source, and Relationship... note that it's the "Code" you want, not the "Name)
+    * Add the RxNorm and SNOMED-CT mapping to the appropriate columns   (Again, look in the "Associations" section of OCL to find the Code, Source, and Relationship... note that it's the "Code" you want, not the "Name")
+    * Any other mappings can be skipped
+  * Move the row as necessary to maintain alphabetical sorting by "Fully Specified Name:en" (not necessary, but good practice)
+* Update the drug-concept-set file:
+  * Create a new row, setting the "Member" column to the "Fully Specified Name:en" of the new concept
+    * Sort alphabetically and update the Sort Weight columns to maintain that order (not necessary, but good practice)
+
+Once the concept has been added, add any specific formularies to the drug.csv
+* Generate a random uuid for each formulary using a tool such as: https://www.uuidgenerator.net/
+* For "Name" include the Spanish display name for the formulary:
+  * TODO: How to determine whether to prepend CES or SSA?
+* For "Concept Drug", reference the appropriate drug using its CIEL or PIH mapping code
+* Commit your code to a branch and issue a PR for review
+
+To remove a drug:
+* Set the "Void/Retire" column for that drug formulation in the drugs.csv file to "True"
+* If there are no other drug formulations that reference the drug concept, you can set "Void/Retire" column to "True" in *both* the "drug-concepts.csv" and "drug-concept-sets.csv" as well.
 
 #### Configuring other Concepts
 
@@ -127,9 +172,3 @@ TODO
 5. Add the zip file to the PIH openmrs-module-mirebalais-metadata Github repo [here](https://github.com/PIH/openmrs-module-mirebalaismetadata/tree/master/api/src/main/resources). This will add the metadata concepts to our build pipeline.
 
 6. The concepts should then be available companero staging server.
-
-#### Diagnoses
-
-Add diagnoses concept set setting here: [https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/deploy/bundle/mexico/MexicoMetadataBundle.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/deploy/bundle/mexico/MexicoMetadataBundle.java)
-
-Example: [https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/deploy/bundle/haiti/HaitiMetadataBundle.java#L100](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/deploy/bundle/haiti/HaitiMetadataBundle.java#L100)
