@@ -74,7 +74,7 @@ https://github.com/PIH/openmrs-config-ces/tree/master/configuration/concepts
 And then a separate file that explicitly sets up the set membership:
 https://github.com/PIH/openmrs-config-ces/tree/master/configuration/concepts
 
-To add a new concept:
+To add a new concept/diagnosis:
 * Search the Concept server (concepts.pih-emr.org) to determine if the concept currently exists in PIH EMR dictionary
 * If it does not exist, search for it in the CIEL dictionary, using the Open Concept Lab:
   * Go to "https://openconceptlab.org/" and search for the term
@@ -98,13 +98,18 @@ To add a new concept:
   * Create a new row, setting the "Member" column to the "Fully Specified Name:es" of the new concept
     * Sort alphabetically and update the Sort Weight columns to maintain that order (not necessary, but good practice)
 * Commit your code to a branch and issue a PR for review
+
+To modify the name of an existing diagnosis:
+* To update the name of a diagnosis, you can update the appropriate row and column for that diagnosis name in the relevant csv file.
+* **HOWEVER** note that if you change the Spanish fully specified name of a concept, you'll need to update that name in the related concept set file as well (or the next time you update the concept set file things will likely fail).
  
 To remove a concept:
 * Set the "Void/Retire" column to True for the concept in *both* the concept and concept set files
 
-NOTE/TODO: we may want to consider simplifying this into a single diagnosis set, if this is easier.
 
-NOTE/TODO: we may want to remove the other mapping columns we aren't using (AMPATH, etc) entirely
+TODO: we need to be careful about modifying the concept files until we implement: https://pihemr.atlassian.net/browse/UHM-6708
+TODO: we may want to consider simplifying this into a single diagnosis set, if this is easier.
+TODO: we may want to remove the other mapping columns we aren't using (AMPATH, etc) entirely
 
 #### Adding New Drugs
 
