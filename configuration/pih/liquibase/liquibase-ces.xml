@@ -13,7 +13,7 @@
         </preConditions>            
         <sqlFile endDelimiter=";" path="sql/migrate_adjustment_disorder_diagnosis.sql" relativeToChangelogFile="true" stripComments="true" />
     </changeSet>
-        
+<!--
     <changeSet id="20210628-cleanup-encounters-without-visits" author="bistenes">
         <comment>Assign encounters (other than registration) that don't have visits to whatever visit is on the same day, if there is one</comment>
         <sql>
@@ -27,6 +27,6 @@
                 and date(v.date_started) = date(e.encounter_datetime)
                 and v.voided = 0;
         </sql>
-    </changeSet>
+    </changeSet>-->
 
 </databaseChangeLog>
