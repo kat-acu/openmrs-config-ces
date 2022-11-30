@@ -449,10 +449,12 @@
             </label>
 
             <!-- The ordering of these corresponds to the Spanish alphebetization -->
-            <enrollInProgram programId="Asthma" showCheckbox="true" toggle="asthma"/>
+            <enrollInProgram programId="Asma" showCheckbox="true" toggle="asthma"/>
             <uimessage code="pihcore.ncd.asthma"/>
             <br />
-            <enrollInProgram programId="Malnutrition" showCheckbox="true" toggle="malnutrition"/>
+            <!-- Malnutrition -->
+            <enrollInProgram programId="61e38de2-44f2-470e-99da-3e97e93d388f"
+                             showCheckbox="true" toggle="malnutrition"/>
             <uimessage code="pihcore.ncd.malnutrition"/>
             <br />
             <span id="diabetes-enroll">
@@ -460,18 +462,21 @@
             </span>
             <uimessage code="pihcore.ncd.diabetes"/>
             <br />
-            <enrollInProgram programId="Epilepsy" showCheckbox="true" toggle="epilepsy"/>
+            <enrollInProgram programId="Epilepsia" showCheckbox="true" toggle="epilepsy"/>
             <uimessage code="pihcore.ncd.epilepsy"/>
             <br />
             <span id="htn-enroll" >
-                <enrollInProgram programId="Hypertension" showCheckbox="true" toggle="ProgramHEARTS"/>
+                <!-- Hypertension -->
+                <enrollInProgram programId="6959057e-9a5c-40ba-a878-292ba4fc35bc"
+                                 showCheckbox="true" toggle="ProgramHEARTS"/>
             </span>
             <uimessage code="pihcore.ncd.htn"/>
             <br />
             <enrollInProgram programId="ANC" showCheckbox="true" toggle="anc"/>
             Cuidado prenatal
             <br />
-            <enrollInProgram programId="Mental Health" showCheckbox="true" toggle="mental"/>
+            <!-- Mental Health -->
+            <enrollInProgram programId="Salud Mental" showCheckbox="true" toggle="mental"/>
             <uimessage code="pihcore.ncd.mental"/>
         </div>
 
