@@ -19,10 +19,6 @@
 					select  count(*) 
 					from encounter e
 					where e.voided = 0 
-					and not EXISTS 
-						(select 1 from obs o
-						where o.encounter_id = e.encounter_id 
-						and o.voided = 0)
 					and EXISTS -- at least one obs referred to as a previous obs in other encounter 
 						(select 1 from obs o4
 						inner join obs o5 on o5.previous_version = o4.obs_id and o5.encounter_id != o4.encounter_id 
@@ -49,10 +45,6 @@
 					select  e.encounter_id 
 					from encounter e
 					where e.voided = 0 
-					and not EXISTS 
-						(select 1 from obs o
-						where o.encounter_id = e.encounter_id 
-						and o.voided = 0)
 					and EXISTS -- at least one obs referred to as a previous obs in other encounter 
 						(select 1 from obs o4
 						inner join obs o5 on o5.previous_version = o4.obs_id and o5.encounter_id != o4.encounter_id 
