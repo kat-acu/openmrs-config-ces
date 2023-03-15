@@ -1,5 +1,5 @@
--- set @startDate = '2019-01-01';
--- set @endDate = '2023-12-31';
+set @startDate = '2022-09-28';
+ set @endDate = '2023-03-15';
 SET SESSION group_concat_max_len = 1000000;
 
 set @locale =   global_property_value('default_locale', 'en');
@@ -265,7 +265,7 @@ INSERT (
 	
 -- final output of all columns needed
 select 
-	visit_id,
+	encounter_id,
 	first_last_name,
 	CASE encounter_location
 		when 'Honduras' then 'Casa de Salud Honduras'
