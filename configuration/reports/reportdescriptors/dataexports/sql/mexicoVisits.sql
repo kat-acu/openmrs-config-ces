@@ -3,6 +3,7 @@
 SET SESSION group_concat_max_len = 1000000;
 
 set @locale =   global_property_value('default_locale', 'en');
+
 SET @mexConsultEnc = encounter_type('aa61d509-6e76-4036-a65d-7813c0c3b752');
 SET @vitEnc = encounter_type('4fb47712-34a6-40d2-8ed3-e153abbd25b7');
 set @dx = concept_from_mapping('PIH','3064');
@@ -25,8 +26,8 @@ encounter_location  varchar(255),
 vitals_encounter_id int(11),
 provider            varchar(255), 
 temp                double,       
-sbp                 double,       
-dbp                 double,       
+sbp                 int,       
+dbp                 int,       
 weight              double,       
 height              double,       
 rr                  double,       
@@ -279,12 +280,12 @@ select
 		when 'Reforma' then 'CSR Reforma'		
 	END "clinic",
 	birthdate,
+	gender,
 	TIMESTAMPDIFF(YEAR, birthdate, now()) "age",
 	date(encounter_datetime) "date",
-	hour(encounter_datetime) "hour",
+	time(encounter_datetime) "time",
 	temp,
-	sbp,
-	dbp,
+	concat(sbp,'/',dbp) bp,
 	weight,
 	height,
 	rr,
