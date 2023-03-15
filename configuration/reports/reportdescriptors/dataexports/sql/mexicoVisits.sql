@@ -1,98 +1,299 @@
-CALL initialize_global_metadata();
-SET @mexConsultEnc = encounter_type('aa61d509-6e76-4036-a65d-7813c0c3b752');
-select concept_id into @temp from concept where uuid = '3ce939d2-26fe-102b-80cb-0017a47871b2';
-select concept_id into @hr from concept where uuid = '3ce93824-26fe-102b-80cb-0017a47871b2';
-select concept_id into @rr from concept where uuid = '3ceb11f8-26fe-102b-80cb-0017a47871b2';
-select concept_id into @sbp from concept where uuid = '3ce934fa-26fe-102b-80cb-0017a47871b2';
-select concept_id into @dbp from concept where uuid = '3ce93694-26fe-102b-80cb-0017a47871b2';
-select concept_id into @wt from concept where uuid = '3ce93b62-26fe-102b-80cb-0017a47871b2';
-select concept_id into @ht from concept where uuid = '3ce93cf2-26fe-102b-80cb-0017a47871b2';
-select concept_id into @o2 from concept where uuid = '3ce9401c-26fe-102b-80cb-0017a47871b2';
-select concept_id into @presentingHistory from concept where uuid = '3cd65c90-26fe-102b-80cb-0017a47871b2';
-select concept_id into @physicalExam from concept where uuid = '3cd9ae0e-26fe-102b-80cb-0017a47871b2';
-select concept_id into @clinicalImpressionComments from concept where uuid = '3cd9d956-26fe-102b-80cb-0017a47871b2';
-select concept_id into @clinicalManagementPlan from concept where uuid = '162749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
-select concept_id into @dispensingConstruct from concept where uuid = 'cef4a703-8521-4c2d-9932-d1429a57e684';
-select concept_id into @medName from concept where uuid = '3cd9491e-26fe-102b-80cb-0017a47871b2';
-select concept_id into @medInstructions from concept where uuid = 'ef7f742b-76e6-4a83-84ca-534ad6705494';
+-- set @startDate = '2019-01-01';
+-- set @endDate = '2023-12-31';
+SET SESSION group_concat_max_len = 1000000;
 
-SELECT CONCAT(DATE(e.encounter_datetime), " ", TIME(e.encounter_datetime)) "date",
-       e.visit_id       "visit id",
-       given_name        "name",
-       family_name       "last name",
-       FLOOR(DATEDIFF(e.encounter_datetime, pr.birthdate)/365.25) "age",
-       pr.gender            "gender",
-       pa.city_village      "loc",
-       MAX(wt.value_numeric)     "weight",
-       MAX(ht.value_numeric)     "height",
-       MAX(o2.value_numeric)     "o2",
-       MAX(temp.value_numeric)   "temp",
-       MAX(hr.value_numeric)     "hr",
-       MAX(rr.value_numeric)     "rr",
-       MAX(sbp.value_numeric)    "sbp",
-       MAX(dbp.value_numeric)    "dbp",
-       MAX(subj.value_text)      "subj",
-       MAX(obj.value_text)      "obj",
-       MAX(analysis.value_text)      "analysis",
-       GROUP_CONCAT(DISTINCT dx_name.name SEPARATOR ', ') "dx",
-       MAX(plan.value_text)      "plan",
-       GROUP_CONCAT(DISTINCT
-           drug.name, ' - ', med_instructions.value_text
-           SEPARATOR '\n'
-       )                          "meds"
-FROM patient p
--- Person
-         INNER JOIN person pr ON p.patient_id = pr.person_id AND pr.voided = 0
--- Most recent name
-         INNER JOIN (SELECT person_id, given_name, family_name
-                     FROM person_name
-                     WHERE voided = 0
-                     ORDER BY date_created desc) n ON p.patient_id = n.person_id
--- Most recent address
-         LEFT OUTER JOIN (SELECT * FROM person_address WHERE voided = 0 ORDER BY date_created DESC) pa
-                         ON p.patient_id = pa.person_id
--- Encounters
-         INNER JOIN encounter e ON p.patient_id = e.patient_id and e.voided = 0 AND
-                                   e.encounter_type in (@vitEnc, @mexConsultEnc)
--- Observations
-         LEFT OUTER JOIN obs wt ON e.encounter_id = wt.encounter_id AND wt.voided = 0 AND wt.concept_id = @wt
-         LEFT OUTER JOIN obs ht ON e.encounter_id = ht.encounter_id AND ht.voided = 0 AND ht.concept_id = @ht
-         LEFT OUTER JOIN obs o2 ON e.encounter_id = o2.encounter_id AND o2.voided = 0 AND o2.concept_id = @o2
-         LEFT OUTER JOIN obs temp ON e.encounter_id = temp.encounter_id AND temp.voided = 0 AND temp.concept_id = @temp
-         LEFT OUTER JOIN obs hr ON e.encounter_id = hr.encounter_id AND hr.voided = 0 AND hr.concept_id = @hr
-         LEFT OUTER JOIN obs rr ON e.encounter_id = rr.encounter_id AND rr.voided = 0 AND rr.concept_id = @rr
-         LEFT OUTER JOIN obs sbp ON e.encounter_id = sbp.encounter_id AND sbp.voided = 0 AND sbp.concept_id = @sbp
-         LEFT OUTER JOIN obs dbp ON e.encounter_id = dbp.encounter_id AND dbp.voided = 0 AND dbp.concept_id = @dbp
-         LEFT OUTER JOIN obs subj ON e.encounter_id = subj.encounter_id AND subj.voided = 0 AND subj.concept_id = @presentingHistory
-         LEFT OUTER JOIN obs obj ON e.encounter_id = obj.encounter_id AND obj.voided = 0 AND obj.concept_id = @physicalExam
-         LEFT OUTER JOIN obs analysis ON e.encounter_id = analysis.encounter_id AND analysis.voided = 0 AND analysis.concept_id = @clinicalImpressionComments
-         LEFT OUTER JOIN obs dx ON e.encounter_id = dx.encounter_id AND dx.voided = 0 AND dx.concept_id = @coded
-         LEFT OUTER JOIN obs plan ON e.encounter_id = plan.encounter_id AND plan.voided = 0 AND plan.concept_id = @clinicalManagementPlan
--- Diagnoses
-         LEFT OUTER JOIN concept_name dx_name
-             ON dx.value_coded = dx_name.concept_id
-                    AND dx_name.locale = 'es'
-                    AND dx_name.locale_preferred = 1
-                    AND dx_name.voided = 0
--- Medications
-         LEFT OUTER JOIN obs med_group
-             ON e.encounter_id = med_group.encounter_id AND med_group.voided = 0
-                    AND med_group.concept_id = @dispensingConstruct
-         LEFT OUTER JOIN obs med_obs
-             ON e.encounter_id = med_obs.encounter_id AND med_obs.voided = 0
-                    AND med_obs.concept_id = @medName AND med_obs.obs_group_id = med_group.obs_id
-         LEFT OUTER JOIN drug ON med_obs.value_drug = drug.drug_id
-         LEFT OUTER JOIN obs med_instructions
-             ON e.encounter_id = med_instructions.encounter_id AND med_instructions.voided = 0
-                    AND med_instructions.concept_id = @medInstructions AND med_instructions.obs_group_id = med_group.obs_id
-WHERE p.voided = 0
--- Exclude test patients
-  AND p.patient_id NOT IN (SELECT person_id
-                           FROM person_attribute
-                           WHERE value = 'true'
-                             AND person_attribute_type_id = @testPt
-                             AND voided = 0)
-  AND date(e.encounter_datetime) >= @startDate
-  AND date(e.encounter_datetime) <= @endDate
-GROUP BY e.visit_id
+set @locale =   global_property_value('default_locale', 'en');
+SET @mexConsultEnc = encounter_type('aa61d509-6e76-4036-a65d-7813c0c3b752');
+SET @vitEnc = encounter_type('4fb47712-34a6-40d2-8ed3-e153abbd25b7');
+set @dx = concept_from_mapping('PIH','3064');
+set @med_name = concept_from_mapping('PIH','1282');
+set @med_qty = concept_from_mapping('PIH','9071');
+set @med_inxs = concept_from_mapping('PIH','9072');
+
+drop temporary table if exists temp_mexico_consults;
+create temporary table temp_mexico_consults
+(
+patient_id          int,          
+visit_id            int(11),      
+first_last_name     varchar(510), 
+age                 int,          
+birthdate           date,         
+gender              char(1),      
+encounter_id        int,          
+encounter_datetime  datetime,     
+encounter_location  varchar(255), 
+vitals_encounter_id int(11),
+provider            varchar(255), 
+temp                double,       
+sbp                 double,       
+dbp                 double,       
+weight              double,       
+height              double,       
+rr                  double,       
+hr                  double,       
+wc                  double,       
+bmi                 double,       
+hdl                 double,       
+ldl                 double,       
+cholesterol         double,       
+glucose             double,       
+hiv_rapid           varchar(255), 
+syphilis_rapid      varchar(255), 
+hep_b               varchar(255), 
+chlamydia_ag        varchar(255), 
+gonorrhea_pcr       varchar(255), 
+hemoglobin          double,       
+blood_group         varchar(255), 
+hep_c               varchar(255), 
+ultrasound_type     varchar(255), 
+ultrasound_notes    text,         
+subjective          text,         
+pe_comment          text,         
+analysis            text,         
+clinical_note       text,         
+test_results        text,         
+plan                text,         
+diagnoses           varchar(1000),
+rapid_tests         text,         
+treatment           text          
+);
+
+-- insert all consult notes in the timeframe
+insert into temp_mexico_consults (patient_id, visit_id, encounter_id, encounter_datetime,encounter_location)
+select patient_id, visit_id, encounter_id, encounter_datetime, encounter_location_name(location_id) 
+FROM encounter e 
+where  e.voided = 0 
+AND e.encounter_type in (@mexConsultEnc)
+AND date(e.encounter_datetime) >= @startDate
+AND date(e.encounter_datetime) <= @endDate
 ;
+
+CREATE INDEX temp_mexico_consults_e on temp_mexico_consults(encounter_id);
+
+-- create temporary table of vital signs encounters in that timeframe
+drop temporary table if exists temp_vitals_encs;
+create temporary table temp_vitals_encs
+select encounter_id, patient_id, encounter_datetime
+FROM encounter e 
+where  e.voided = 0 
+AND e.encounter_type in (@vitEnc)
+AND date(e.encounter_datetime) >= @startDate
+AND date(e.encounter_datetime) <= @endDate
+;
+
+-- update vital signs encounter_id if they occurred on same day as consult (latest on that day)
+update temp_mexico_consults t
+inner join encounter e on e.encounter_id =
+	(select e2.encounter_id from temp_vitals_encs e2
+	where e2.patient_id = t.patient_id
+	and date(e2.encounter_datetime) = date(t.encounter_datetime)
+	order by e2.encounter_datetime desc limit 1)
+set t.vitals_encounter_id = e.encounter_id;
+
+update temp_mexico_consults t
+inner join person p on t.patient_id = p.person_id 
+set t.birthdate = p.birthdate,
+	t.gender = p.gender;
+
+update temp_mexico_consults t
+set first_last_name = person_name(patient_id);
+
+update temp_mexico_consults t
+set provider = provider(encounter_id);
+
+update temp_mexico_consults t
+set temp = obs_value_numeric(vitals_encounter_id, 'PIH','5088');
+
+update temp_mexico_consults t
+set hr = obs_value_numeric(vitals_encounter_id, 'PIH','5087');
+
+update temp_mexico_consults t
+set sbp = obs_value_numeric(vitals_encounter_id, 'PIH','5085');
+
+update temp_mexico_consults t
+set dbp = obs_value_numeric(vitals_encounter_id, 'PIH','5086');
+
+update temp_mexico_consults t
+set rr = obs_value_numeric(vitals_encounter_id, 'PIH','5242'); 
+
+update temp_mexico_consults t
+set weight = obs_value_numeric(vitals_encounter_id, 'PIH','5089');
+
+update temp_mexico_consults t
+set height = obs_value_numeric(vitals_encounter_id, 'PIH','5090');
+
+update temp_mexico_consults t
+set wc = obs_value_numeric(encounter_id, 'PIH','10542');
+
+update temp_mexico_consults t
+set ultrasound_type = obs_value_coded_list(encounter_id, 'PIH','14068',@locale);
+
+update temp_mexico_consults t
+set ultrasound_notes = obs_value_text(encounter_id, 'PIH','7018');
+
+update temp_mexico_consults t
+set hdl = obs_value_numeric(encounter_id, 'PIH','1007');
+
+update temp_mexico_consults t
+set ldl = obs_value_numeric(encounter_id, 'PIH','1008');
+
+update temp_mexico_consults t
+set cholesterol = obs_value_numeric(encounter_id, 'PIH','1006');
+
+update temp_mexico_consults t
+set glucose = obs_value_numeric(encounter_id, 'PIH','887');
+
+update temp_mexico_consults t
+set hdl = obs_value_numeric(encounter_id, 'PIH','1007');
+
+update temp_mexico_consults t
+set hiv_rapid = obs_value_coded_list(encounter_id, 'PIH','1040',@locale);
+
+update temp_mexico_consults t
+set syphilis_rapid = obs_value_coded_list(encounter_id, 'PIH','12265',@locale);
+
+update temp_mexico_consults t
+set hep_b = obs_value_coded_list(encounter_id, 'PIH','7451',@locale);
+
+update temp_mexico_consults t
+set chlamydia_ag = obs_value_coded_list(encounter_id, 'PIH','12335',@locale);
+
+update temp_mexico_consults t
+set gonorrhea_pcr = obs_value_coded_list(encounter_id, 'PIH','12334',@locale);
+
+update temp_mexico_consults t
+set blood_group = obs_value_coded_list(encounter_id, 'PIH','300',@locale);
+
+update temp_mexico_consults t
+set hep_c = obs_value_coded_list(encounter_id, 'PIH','7452',@locale);
+
+update temp_mexico_consults t
+set hemoglobin = obs_value_numeric(encounter_id, 'PIH','21');
+
+update temp_mexico_consults t
+set subjective = obs_value_text(encounter_id, 'PIH',974);
+
+update temp_mexico_consults t
+set pe_comment  = obs_value_text(encounter_id, 'PIH',1336);
+
+update temp_mexico_consults t
+set analysis = obs_value_text(encounter_id, 'PIH',1364);
+
+update temp_mexico_consults t
+set analysis = obs_value_text(encounter_id, 'PIH',1364);
+
+update temp_mexico_consults t
+set plan = obs_value_text(encounter_id, 'PIH',10534);
+
+drop temporary table if exists temp_dxs;
+create temporary table temp_dxs
+select t.encounter_id, group_concat( CONCAT(concept_name(o.value_coded,@locale),' ',retrieveICD10(o.value_coded))) "dxs"
+from temp_mexico_consults t
+inner join obs o on o.encounter_id = t.encounter_id and o.voided = 0 and o.concept_id = @dx
+ group by t.encounter_id
+;
+
+update temp_mexico_consults t 
+inner join temp_dxs td on td.encounter_id = t.encounter_id
+set diagnoses = td.dxs;
+
+drop temporary table if exists temp_meds;
+create temporary table temp_meds
+select t.encounter_id, 
+	group_concat( 
+		CONCAT(concept_name(om.value_coded,@locale),
+			if(oq.value_numeric is not null, CONCAT(' cantidad: ', oq.value_numeric),''),
+			if(oi.value_text is not null, CONCAT(' Instrucciones: ', oi.value_text),''))
+			) "meds_info"
+from temp_mexico_consults t
+inner join obs om on om.encounter_id = t.encounter_id and om.voided = 0 and om.concept_id = @med_name
+left outer join obs oq on oq.encounter_id = t.encounter_id and oq.voided = 0 and oq.concept_id = @med_qty
+left outer join obs oi on oi.encounter_id = t.encounter_id and oi.voided = 0 and oi.concept_id = @med_inxs
+ group by t.encounter_id
+;
+
+update temp_mexico_consults t 
+inner join temp_meds tm on tm.encounter_id = t.encounter_id
+set treatment = tm.meds_info;
+
+
+update temp_mexico_consults t
+set test_results = 
+	CONCAT( 
+		if(hdl is not null, CONCAT('HDL: ',hdl,'  '),''),
+		if(ldl is not null, CONCAT('LDL: ',ldl,'  '),''),
+		if(cholesterol is not null, CONCAT('Cholesterol: ',cholesterol,'  '),''),
+		if(glucose is not null, CONCAT('Glucose: ',glucose,'  '),''),
+ 		if(ultrasound_type is not null, CONCAT('Ultrasound Type: ',ultrasound_type,'  '),''),
+ 		if(ultrasound_notes is not null, CONCAT('Ultrasound Notes: ',ultrasound_notes,'  '),'')		
+	);
+
+update temp_mexico_consults t
+set clinical_note = 
+	CONCAT(
+		'Acude ',
+		first_last_name, ', ',
+		gender, ' de ',
+		IF(TIMESTAMPDIFF(MONTH, birthdate, encounter_datetime) < 12, TIMESTAMPDIFF(MONTH, birthdate, encounter_datetime),TIMESTAMPDIFF(YEAR, birthdate, encounter_datetime)),
+		IF(TIMESTAMPDIFF(MONTH, birthdate, encounter_datetime) < 12, ' meses por ', ' años por '),
+		if(provider is not null,CONCAT(provider,'. '),''),
+		if(subjective is not null, CONCAT(subjective,'. '), ''),
+  		if(pe_comment is not null, CONCAT(pe_comment,'. '), ''),
+		if(analysis is not null, CONCAT(analysis,'. '), ''),
+		if(plan is not null, CONCAT(plan,'. '), ''),
+		if(temp is not null, CONCAT('TEMP: ',temp,' '),''),
+		if(sbp is not null or dbp is not null, CONCAT('T/A: ',sbp,'/',dbp,' '),''),
+		if(rr is not null, CONCAT('FR: ',rr,' '),''),
+		if(hr is not null, CONCAT('FC: ',hr,' '),'')		
+		);
+		
+update temp_mexico_consults t
+set rapid_tests = 
+INSERT (
+	CONCAT(
+		if(hiv_rapid is not null,CONCAT(',VIH: ',hiv_rapid),''),
+		if(syphilis_rapid is not null,CONCAT(', Sífilis: ',syphilis_rapid),''),
+		if(hep_b is not null,CONCAT(',Hepatitis B: ',hep_b),''),
+		if(chlamydia_ag is not null,CONCAT(',Clamidia: ',chlamydia_ag),''),
+		if(gonorrhea_pcr is not null,CONCAT(',Gonorrea: ',gonorrhea_pcr),''),
+		if(blood_group is not null,CONCAT(',Tipo de sangre: ',blood_group),''),
+		if(hep_c is not null,CONCAT(',Hepatitis C: ',hep_c),''),
+		if(hemoglobin is not null,CONCAT(',Hemoglobina: ',hemoglobin),'')		
+		)
+	,1,1,'');
+	
+-- final output of all columns needed
+select 
+	visit_id,
+	first_last_name,
+	CASE encounter_location
+		when 'Honduras' then 'Casa de Salud Honduras'
+		when 'Laguna del Cofre' then 'CSR Laguna del Cofre'
+		when 'Capitan' then 'Unidad Médica Rural Capitán Luis A. Vidal'
+		when 'Letrero' then 'CSR El Letrero'
+		when 'CSR El Letrero' then 'Casa de Salud Salvador Urbina'
+		when 'Soledad' then 'Casa de Salud La Soledad'		
+		when 'Matazano ' then 'ESI El Matasanos'		
+		when 'Plan Alta' then 'Casa de Salud Plan de la Libertad'		
+		when 'Plan Baja' then 'Casa de Salud Plan de la Libertad'			
+		when 'Reforma' then 'CSR Reforma'		
+	END "clinic",
+	birthdate,
+	TIMESTAMPDIFF(YEAR, birthdate, now()) "age",
+	date(encounter_datetime) "date",
+	hour(encounter_datetime) "hour",
+	temp,
+	sbp,
+	dbp,
+	weight,
+	height,
+	rr,
+	hr,
+	wc,
+	ROUND(weight / ((height / 100) * (height / 100)),1) "bmi",
+	test_results,
+	clinical_note,
+	diagnoses,
+	rapid_tests,
+	treatment
+from temp_mexico_consults;
