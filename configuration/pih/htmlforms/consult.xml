@@ -2135,9 +2135,11 @@
                     <ifMode mode="VIEW" include="true">
                     if (!diagnoses) {  // View mode
                         diagnoses = jq.map(jq("#diagnosis-lookup span"), (d) => {
-                            const diagnosis = d.innerHTML;
+                            let diagnosis = d.innerHTML;
                             const indexOfArrow = diagnosis.indexOf('→');
-                            return (indexOfArrow === -1 ? diagnosis : diagnosis.substring(0, indexOfArrow)).trim();
+                            diagnosis = (indexOfArrow === -1 ? diagnosis : diagnosis.substring(0, indexOfArrow)).trim();
+                            diagnosis = diagnosis.replace('(Presunto)', '').replace('(1a vez)', '').trim();
+                            return diagnosis;
                         }).join(", ");
                     }
                     </ifMode>
