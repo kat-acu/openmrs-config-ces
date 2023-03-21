@@ -1,5 +1,5 @@
-set @startDate = '2022-09-28';
- set @endDate = '2023-03-15';
+-- set @startDate = '2022-09-28';
+-- set @endDate = '2023-03-15';
 SET SESSION group_concat_max_len = 1000000;
 
 set @locale =   global_property_value('default_locale', 'en');
