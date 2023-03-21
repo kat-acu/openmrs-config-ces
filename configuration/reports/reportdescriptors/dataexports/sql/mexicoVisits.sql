@@ -6,7 +6,7 @@ set @locale =   global_property_value('default_locale', 'en');
 
 SET @mexConsultEnc = encounter_type('aa61d509-6e76-4036-a65d-7813c0c3b752');
 SET @vitEnc = encounter_type('4fb47712-34a6-40d2-8ed3-e153abbd25b7');
-set @dx = concept_from_mapping('PIH','3064');
+set @dx = concept_from_mapping('PIH','3064');	
 set @med_name = concept_from_mapping('PIH','1282');
 set @med_qty = concept_from_mapping('PIH','9071');
 set @med_inxs = concept_from_mapping('PIH','9072');
@@ -275,7 +275,7 @@ INSERT (
 	
 -- final output of all columns needed
 select 
-	CONCAT(LEFT(first_name,1),LEFT(last_name,1),'-',consult_id) "",
+	CONCAT(LEFT(first_name,1),LEFT(last_name,1),'-',consult_id) "consult_id",
 	encounter_id,
 	first_last_name,
 	CASE encounter_location
