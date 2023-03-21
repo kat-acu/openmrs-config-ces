@@ -1,5 +1,5 @@
--- set @startDate = '2022-09-28';
--- set @endDate = '2023-03-15';
+-- set @startDate = '2023-03-20';
+-- set @endDate = '2023-03-20';
 SET SESSION group_concat_max_len = 1000000;
 
 set @locale =   global_property_value('default_locale', 'en');
@@ -208,8 +208,8 @@ select t.encounter_id,
 			) "meds_info"
 from temp_mexico_consults t
 inner join obs om on om.encounter_id = t.encounter_id and om.voided = 0 and om.concept_id = @med_name
-left outer join obs oq on oq.encounter_id = t.encounter_id and oq.voided = 0 and oq.concept_id = @med_qty
-left outer join obs oi on oi.encounter_id = t.encounter_id and oi.voided = 0 and oi.concept_id = @med_inxs
+left outer join obs oq on oq.encounter_id = t.encounter_id and oq.voided = 0 and oq.obs_group_id  = om.obs_group_id and oq.concept_id = @med_qty
+left outer join obs oi on oi.encounter_id = t.encounter_id and oi.voided = 0 and oi.obs_group_id  = om.obs_group_id and oi.concept_id = @med_inxs
  group by t.encounter_id
 ;
 
@@ -279,11 +279,11 @@ select
 		when 'Plan Baja' then 'Casa de Salud Plan de la Libertad'			
 		when 'Reforma' then 'CSR Reforma'		
 	END "clinic",
-	birthdate,
+	DATE_FORMAT(birthdate,'%d-%c-%Y') "birthdate",
 	gender,
 	TIMESTAMPDIFF(YEAR, birthdate, now()) "age",
-	date(encounter_datetime) "date",
-	time(encounter_datetime) "time",
+	DATE_FORMAT(date(encounter_datetime),'%d-%c-%Y') "date",
+	TIME_FORMAT(encounter_datetime,'%H:%i') "time",
 	temp,
 	concat(sbp,'/',dbp) bp,
 	weight,
