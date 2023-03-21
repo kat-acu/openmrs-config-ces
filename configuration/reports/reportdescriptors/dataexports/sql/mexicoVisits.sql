@@ -14,9 +14,12 @@ set @med_inxs = concept_from_mapping('PIH','9072');
 drop temporary table if exists temp_mexico_consults;
 create temporary table temp_mexico_consults
 (
+consult_id			int not null AUTO_INCREMENT,
 patient_id          int,          
-visit_id            int(11),      
-first_last_name     varchar(510), 
+visit_id            int(11), 
+first_name			varchar(255),
+last_name			varchar(255),
+first_last_name     varchar(511), 
 age                 int,          
 birthdate           date,         
 gender              char(1),      
@@ -56,7 +59,8 @@ test_results        text,
 plan                text,         
 diagnoses           varchar(1000),
 rapid_tests         text,         
-treatment           text          
+treatment           text,
+PRIMARY KEY (consult_id)
 );
 
 -- insert all consult notes in the timeframe
@@ -97,7 +101,13 @@ set t.birthdate = p.birthdate,
 	t.gender = p.gender;
 
 update temp_mexico_consults t
-set first_last_name = person_name(patient_id);
+set first_name = person_given_name(patient_id);
+
+update temp_mexico_consults t
+set last_name = person_family_name(patient_id);
+
+update temp_mexico_consults t
+set first_last_name = concat(first_name, ' ', last_name);
 
 update temp_mexico_consults t
 set provider = provider(encounter_id);
@@ -265,6 +275,7 @@ INSERT (
 	
 -- final output of all columns needed
 select 
+	CONCAT(LEFT(first_name,1),LEFT(last_name,1),'-',consult_id) "",
 	encounter_id,
 	first_last_name,
 	CASE encounter_location
@@ -279,10 +290,10 @@ select
 		when 'Plan Baja' then 'Casa de Salud Plan de la Libertad'			
 		when 'Reforma' then 'CSR Reforma'		
 	END "clinic",
-	DATE_FORMAT(birthdate,'%d-%c-%Y') "birthdate",
+	birthdate,
 	gender,
 	TIMESTAMPDIFF(YEAR, birthdate, now()) "age",
-	DATE_FORMAT(date(encounter_datetime),'%d-%c-%Y') "date",
+	date(encounter_datetime) "date",
 	TIME_FORMAT(encounter_datetime,'%H:%i') "time",
 	temp,
 	concat(sbp,'/',dbp) bp,
