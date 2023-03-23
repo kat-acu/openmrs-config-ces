@@ -1,5 +1,5 @@
 -- set @startDate = '2023-03-20';
--- set @endDate = '2023-03-20';
+-- set @endDate = '2023-03-24';
 SET SESSION group_concat_max_len = 1000000;
 
 set @locale =   global_property_value('default_locale', 'en');
@@ -152,7 +152,7 @@ update temp_mexico_consults t
 set cholesterol = obs_value_numeric(encounter_id, 'PIH','1006');
 
 update temp_mexico_consults t
-set glucose = obs_value_numeric(encounter_id, 'PIH','887');
+set glucose = COALESCE(obs_value_numeric(vitals_encounter_id, 'PIH','887'), obs_value_numeric(encounter_id, 'PIH','887'));
 
 update temp_mexico_consults t
 set hdl = obs_value_numeric(encounter_id, 'PIH','1007');
@@ -233,10 +233,10 @@ set test_results =
 	CONCAT( 
 		if(hdl is not null, CONCAT('HDL: ',hdl,'  '),''),
 		if(ldl is not null, CONCAT('LDL: ',ldl,'  '),''),
-		if(cholesterol is not null, CONCAT('Cholesterol: ',cholesterol,'  '),''),
-		if(glucose is not null, CONCAT('Glucose: ',glucose,'  '),''),
- 		if(ultrasound_type is not null, CONCAT('Ultrasound Type: ',ultrasound_type,'  '),''),
- 		if(ultrasound_notes is not null, CONCAT('Ultrasound Notes: ',ultrasound_notes,'  '),'')		
+		if(cholesterol is not null, CONCAT('Colesterol total: ',cholesterol,'  '),''),
+		if(glucose is not null, CONCAT('Glucosa: ',glucose,'  '),''),
+ 		if(ultrasound_type is not null, CONCAT('Tipo de ultrasonido: ',ultrasound_type,'  '),''),
+ 		if(ultrasound_notes is not null, CONCAT('Comentario ultrasonido: ',ultrasound_notes,'  '),'')		
 	);
 
 update temp_mexico_consults t
