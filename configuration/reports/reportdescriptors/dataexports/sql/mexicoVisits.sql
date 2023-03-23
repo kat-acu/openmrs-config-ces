@@ -211,22 +211,21 @@ set diagnoses = td.dxs;
 drop temporary table if exists temp_meds;
 create temporary table temp_meds
 select t.encounter_id, 
-	group_concat( 
-		CONCAT(concept_name(om.value_coded,@locale),
-			if(oq.value_numeric is not null, CONCAT(' cantidad: ', oq.value_numeric),''),
-			if(oi.value_text is not null, CONCAT(' Instrucciones: ', oi.value_text),''))
-			) "meds_info"
+INSERT(
+	group_concat('\n', 
+		CONCAT(drugName(om.value_drug),
+			if(oq.value_numeric is not null, CONCAT(' cantidad: ', oq.value_numeric),''))
+			) 
+		,1,1,'')"meds_info"
 from temp_mexico_consults t
 inner join obs om on om.encounter_id = t.encounter_id and om.voided = 0 and om.concept_id = @med_name
 left outer join obs oq on oq.encounter_id = t.encounter_id and oq.voided = 0 and oq.obs_group_id  = om.obs_group_id and oq.concept_id = @med_qty
-left outer join obs oi on oi.encounter_id = t.encounter_id and oi.voided = 0 and oi.obs_group_id  = om.obs_group_id and oi.concept_id = @med_inxs
  group by t.encounter_id
 ;
 
 update temp_mexico_consults t 
 inner join temp_meds tm on tm.encounter_id = t.encounter_id
 set treatment = tm.meds_info;
-
 
 update temp_mexico_consults t
 set test_results = 
