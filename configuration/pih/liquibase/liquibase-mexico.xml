@@ -37,8 +37,6 @@
 					-- non voided
 					-- have no non-voided obs
 					-- ONLY have obs that are referred to as "previous" in another encounter
-					*/
-					
 					drop temporary table if exists encs_to_void;
 					create temporary table encs_to_void
 					(
