@@ -14,6 +14,8 @@
         <sqlFile endDelimiter=";" path="sql/migrate_adjustment_disorder_diagnosis.sql" relativeToChangelogFile="true" stripComments="true" />
     </changeSet>
     <changeSet id="20230208-void-duplicate-empty-encounters" author="dmdesimone">
+		<validCheckSum>8:d71b3627bba6162ec7ef0873589688dd</validCheckSum>
+		<validCheckSum>8:b654ffd466295ce0ce2308f40aaf86e3</validCheckSum>
 	    <preConditions onFail="MARK_RAN">
 			<not><sqlCheck expectedResult="0">
 					select  count(*) 
