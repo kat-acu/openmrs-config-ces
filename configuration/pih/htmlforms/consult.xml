@@ -2095,7 +2095,7 @@
                         <uimessage code="pihcore.visitNote.plan.approximateReturnVisitDate"/>
                     </label>
                     <span class="medium">
-                        <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate"/>
+                        <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" allowPastDates="false" id="apptDate"/>
                     </span>
                 </p>
 
