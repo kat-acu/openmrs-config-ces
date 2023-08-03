@@ -2073,7 +2073,7 @@
                         <obsgroup groupingConceptId="PIH:14822" showIfEmpty="false">
                             <h3>
                                 <uimessage code="mirebalais.dispensing.medication"/>
-                                {0} - V2
+                                {0} 
                             </h3>
                             <fieldset class="medication">
                                 <p class="field-error" style="display:none"></p>
