@@ -15,23 +15,13 @@
 
 
 <htmlform formName="Consult"
-          formUuid="DC5C050E-4A90-471C-AAD7-D80A0F9A26E6"
+          formUuid="b5a50e02-bc3b-4bc9-8d6f-a4decad17a97"
           formEncounterType="aa61d509-6e76-4036-a65d-7813c0c3b752"
-          formVersion="2.0">
+          formVersion="1.0">
 
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ExitPatientFromSelectedProgramsAction"/>
     <uiInclude provider="uicommons" javascript="moment-with-locales.min.js"/>
-    <macros>
-        <macro key="milliGram" value="CIEL:161553"/>
-        <macro key="milliLiter" value="CIEL:162263"/>
-        <macro key="capsule" value="CIEl:1608"/>
-        <macro key="tablet" value="CIEL:1513"/>
-        <macro key="puff" value="CIEL:162372"/>
-        <macro key="inTheMorning" value="PIH:IN THE MORNING"/>
-        <macro key="atNoon" value="PIH:3425"/>
-        <macro key="inTheAfternoon" value="PIH:In the afternoon"/>
-        <macro key="inTheEvening" value="PIH:IN THE EVENING"/>
-    </macros>
+
     <style type="text/css">
 
         #who-when-where {
@@ -236,22 +226,6 @@
 
         .medication-instructions input {
             width: 85%;
-        }
-
-        .medication-dose {
-            border-style: groove;
-            padding-top: 20px;
-            padding-left: 10px;
-            margin-bottom: 20px;
-        }
-
-        p.inline-timing > * {
-            display: inline;
-        }
-
-        p.inline-timing > input[type="text"] {
-            min-width: 40px;
-            margin-left: 20px;
         }
 
         #Alert{
@@ -2070,10 +2044,10 @@
             <div class="section-container">
                 <repeat with="['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8'],['9'],['10'],['11'],['12']">
                     <span id="medication-{0}" class="medication">
-                        <obsgroup groupingConceptId="PIH:14822" showIfEmpty="false">
+                        <obsgroup groupingConceptId="PIH:9070" showIfEmpty="false">
                             <h3>
                                 <uimessage code="mirebalais.dispensing.medication"/>
-                                {0} - V2
+                                {0}
                             </h3>
                             <fieldset class="medication">
                                 <p class="field-error" style="display:none"></p>
@@ -2084,153 +2058,18 @@
                                     <obs id="name{0}" class="medication-name" conceptId="CIEL:1282"
                                          answerDrugs="true" includeRetiredDrugs="false"/>
                                 </p>
-                                <div class="section-container">
-                                    <div class="medication-dose">
-                                        <label>
-                                            <uimessage code="mirebalais.dispensing.medicationDose"/> 1
-                                        </label>
-                                        <div class="two-columns" style="width:40%">
-                                            <div class="small-text">
-                                                <p class="inline">
-                                                    <span style="white-space: nowrap">
-                                                            <obs id="amount{0}-1" class="medication-amount" conceptId="PIH:9073"/>&amp;nbsp;&amp;nbsp;
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div class="small-text">
-                                                <p class="inline">
-                                                    <span style="white-space: nowrap">
-                                                            <obs
-                                                                    id="dosingUnit-1"
-                                                                    class="medication-dose-unit"
-                                                                    conceptId="PIH:Dosing units coded"
-                                                                    answerConceptIds="$puff,$milliGram,$milliLiter,$capsule,$tablet"
-                                                                    answerCodes="puff(s),mg,mL,capsule,tablet"
-                                                            />
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <p class="inline-timing">
-                                            <obs conceptId="PIH:Part of the day"
-                                                 style="checkbox"
-                                                 answerConceptId="$inTheMorning"
-                                                 answerLabel="Mañana"
-                                                 showCommentField="true"
-                                                 commentFieldLabel=""/>
-                                        </p>
-                                        <p class="inline-timing">
-                                            <obs conceptId="PIH:Part of the day"
-                                                 style="checkbox"
-                                                 answerConceptId="$atNoon"
-                                                 answerLabel="Medio dia"
-                                                 showCommentField="true"
-                                                 commentFieldLabel=""/>
-                                        </p>
-                                        <p class="inline-timing">
-                                            <obs conceptId="PIH:Part of the day"
-                                                 style="checkbox"
-                                                 answerConceptId="$inTheAfternoon"
-                                                 answerLabel="Tarde"
-                                                 showCommentField="true"
-                                                 commentFieldLabel=""/>
-                                        </p>
-                                        <p class="inline-timing">
-                                            <obs conceptId="PIH:Part of the day"
-                                                 style="checkbox"
-                                                 answerConceptId="$inTheEvening"
-                                                 answerLabel="Noche"
-                                                 showCommentField="true"
-                                                 commentFieldLabel=""/>
-                                        </p>
-                                    </div>
-                                    <div class="medication-dose">
-                                        <label>
-                                            <uimessage code="mirebalais.dispensing.medicationDose"/>  2
-                                        </label>
-                                        <div class="two-columns" style="width:40%">
-                                            <div class="small-text">
-                                                <p class="inline">
-                                                    <span style="white-space: nowrap">
-                                                        <obs id="amount{0}-2" class="medication-amount" conceptId="PIH:14824"/>&amp;nbsp;&amp;nbsp;
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div class="small-text">
-                                                <p class="inline">
-                                                    <span style="white-space: nowrap">
-                                                        <obs
-                                                                id="dosingUnit-2"
-                                                                class="medication-dose-unit"
-                                                                conceptId="PIH:14825"
-                                                                answerConceptIds="$puff,$milliGram,$milliLiter,$capsule,$tablet"
-                                                                answerCodes="puff(s),mg,mL,capsule,tablet"
-                                                        />
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <p class="inline-timing">
-                                            <obs conceptId="PIH:14823"
-                                                 style="checkbox"
-                                                 answerConceptId="$inTheMorning"
-                                                 answerLabel="Mañana"
-                                                 showCommentField="true"
-                                                 commentFieldLabel=""/>
-                                        </p>
-                                        <p class="inline-timing">
-                                            <obs conceptId="PIH:14823"
-                                                 style="checkbox"
-                                                 answerConceptId="$atNoon"
-                                                 answerLabel="Medio dia"
-                                                 showCommentField="true"
-                                                 commentFieldLabel=""/>
-                                        </p>
-                                        <p class="inline-timing">
-                                            <obs conceptId="PIH:14823"
-                                                 style="checkbox"
-                                                 answerConceptId="$inTheAfternoon"
-                                                 answerLabel="Tarde"
-                                                 showCommentField="true"
-                                                 commentFieldLabel=""/>
-                                        </p>
-                                        <p class="inline-timing">
-                                            <obs conceptId="PIH:14823"
-                                                 style="checkbox"
-                                                 answerConceptId="$inTheEvening"
-                                                 answerLabel="Noche"
-                                                 showCommentField="true"
-                                                 commentFieldLabel=""/>
-                                        </p>
-                                    </div>
-                                    <p>
-                                        <label>
-                                            <uimessage code="mirebalais.dispensing.medicationDuration"/>
-                                        </label>
-                                    </p>
-                                    <div class="two-columns" style="width:40%">
-                                        <div class="small-text">
-                                            <p class="inline">
-                                                <span style="white-space: nowrap">
-                                                    <obs id="duration{0}" class="medication-duration" conceptId="PIH:9075"/>
-                                                </span>
-                                            </p>
-                                        </div>
-                                        <div class="small-text">
-                                            <p class="inline">
-                                                <span style="white-space: nowrap">
-                                                    <obs id="durationUnits{0}" class="medication-units" conceptId="PIH:TIME UNITS"/>
-                                                </span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <label>
-                                            <uimessage code="mirebalais.dispensing.medicationInstructions"/>
-                                        </label>
-                                        <obs id="instructions{0}" class="medication-instructions" conceptId="PIH:9072"/>
-                                    </p>
-                                </div>
+                                <p class="inline">
+                                    <label>
+                                        <uimessage code="mirebalais.dispensing.medicationAmount"/>
+                                    </label>
+                                    <obs id="amount{0}" class="medication-amount" conceptId="PIH:9071"/>
+                                </p>
+                                <p>
+                                    <label>
+                                        <uimessage code="mirebalais.dispensing.medicationInstructions"/>
+                                    </label>
+                                    <obs id="instructions{0}" class="medication-instructions" conceptId="PIH:9072"/>
+                                </p>
                             </fieldset>
                         </obsgroup>
                     </span>
