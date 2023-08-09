@@ -1,5 +1,5 @@
 -- set @startDate = '2023-03-20';
--- set @endDate = '2023-03-24';
+-- set @endDate = '2023-09-24';
 SET SESSION group_concat_max_len = 1000000;
 
 set @locale =   global_property_value('default_locale', 'en');
@@ -33,6 +33,7 @@ sbp                 int,
 dbp                 int,       
 weight              double,       
 height              double,       
+o2                  double,
 rr                  double,       
 hr                  double,       
 wc                  double,       
@@ -132,6 +133,9 @@ set weight = obs_value_numeric(vitals_encounter_id, 'PIH','5089');
 
 update temp_mexico_consults t
 set height = obs_value_numeric(vitals_encounter_id, 'PIH','5090');
+
+update temp_mexico_consults t
+set o2 = obs_value_numeric(vitals_encounter_id, 'PIH','5092');
 
 update temp_mexico_consults t
 set wc = obs_value_numeric(encounter_id, 'PIH','10542');
@@ -298,6 +302,7 @@ select
 	concat(sbp,'/',dbp) bp,
 	weight,
 	height,
+	o2,
 	rr,
 	hr,
 	wc,
