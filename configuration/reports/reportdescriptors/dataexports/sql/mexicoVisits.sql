@@ -33,7 +33,7 @@ sbp                 int,
 dbp                 int,       
 weight              double,       
 height              double,       
-o2                  double,
+o2					double,
 rr                  double,       
 hr                  double,       
 wc                  double,       
@@ -217,9 +217,7 @@ create temporary table temp_meds
 select t.encounter_id, 
 INSERT(
 	group_concat('\n', 
-		CONCAT(drugName(om.value_drug),
-			if(oq.value_numeric is not null, CONCAT(' cantidad: ', oq.value_numeric),''))
-			) 
+		drugName(om.value_drug)) 
 		,1,1,'')"meds_info"
 from temp_mexico_consults t
 inner join obs om on om.encounter_id = t.encounter_id and om.voided = 0 and om.concept_id = @med_name
