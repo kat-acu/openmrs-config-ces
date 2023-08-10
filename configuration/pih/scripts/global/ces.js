@@ -299,38 +299,74 @@ async function printPrescription(formattedConsultDate, patientName, age, diagnos
   const pageFontSize = 10;
   const page = pdfDoc.getPages()[0];
 
-  let rowPosition = 450;
+  let rowPosition = 420;
+  let doseRowPosition = rowPosition;
 
-  page.drawText('Nombre del medicamento', {x: 30, y: rowPosition, size: pageFontSize, font: pageFont});
-  page.drawText('Frascos/Cajas', {x: 350, y: rowPosition, size: pageFontSize, font: pageFont});
-  page.drawText('Instrucciones', {x: 450, y: rowPosition, size: pageFontSize, font: pageFont});
+  //page.drawText('Nombre del medicamento', {x: 30, y: rowPosition, size: pageFontSize, font: pageFont});
+  //page.drawText('Frascos/Cajas', {x: 350, y: rowPosition, size: pageFontSize, font: pageFont});
+  //page.drawText('Instrucciones', {x: 450, y: rowPosition, size: pageFontSize, font: pageFont});
 
-  page.drawLine({
-    start: { x: 30, y: 445 },
-    end: { x: 750, y: 445 },
-    thickness: 1,
-    color: PDFLib.rgb(1.0,0.59608, 0.0),
-  })
+  // page.drawLine({
+  //   start: { x: 30, y: 445 },
+  //   end: { x: 750, y: 445 },
+  //   thickness: 1,
+  //   color: PDFLib.rgb(1.0,0.59608, 0.0),
+  // })
 
-  prescriptions.forEach(p => {
-    let drugNameLines = splitToLines(p.drugName ?? '', 65);
-    let instructionLines = splitToLines(p.instructions ?? '', 80);
+  prescriptions.forEach( p => {
+    let drugNameLines = splitToLines(p.drugName ?? '', 35);
+    let instructionLines = splitToLines(p.instructions ?? '', 35);
     let maxlines = drugNameLines.length > instructionLines.length ? drugNameLines.length : instructionLines.length;
-    for (var i=0; i<maxlines; i++) {
+    // re-align the Drug name row position with the Doses rows when printing a new drug
+    if ( doseRowPosition < rowPosition  ) {
+      rowPosition = doseRowPosition ;
+    } else {
+      doseRowPosition = rowPosition;
+    }
+
+    for ( var i = 0; i < maxlines; i++ ) {
       rowPosition = rowPosition - 20;
       if (drugNameLines.length > i) {
-        page.drawText(drugNameLines[i], {x: 30, y: rowPosition, size: pageFontSize, font: pageFont});
+        page.drawText(drugNameLines[i], { x: 30, y: rowPosition, size: pageFontSize, font: pageFont });
       }
       if (i === 0) {
-        page.drawText(p.amount ?? '', {x: 350, y: rowPosition, size: pageFontSize, font: pageFont});
+        // on the first line print the Dose and units
+        if ( p.medsDoses != null && p.medsDoses.length > 0 ) {
+          for ( let m=0; m < p.medsDoses.length; m++ ) {
+            doseRowPosition = doseRowPosition - 20;
+            page.drawText(( p.medsDoses[m].doseAmount + " " + p.medsDoses[m].doseUnits) ?? '', { x: 225, y: doseRowPosition, size: pageFontSize, font: pageFont});
+            const timingDoses = p.medsDoses[m].timingDoses;
+            if (timingDoses != null ) {
+              for (let t = 0; t < timingDoses.length; t++) {
+                const label = timingDoses[t].label;
+                switch (label) {
+                  case 'mañana':
+                    page.drawText(( timingDoses[t].dose) ?? '', { x: 285, y: doseRowPosition, size: pageFontSize, font: pageFont});
+                    break;
+                  case 'medio dia':
+                    page.drawText(( timingDoses[t].dose) ?? '', { x: 345, y: doseRowPosition, size: pageFontSize, font: pageFont});
+                    break;
+                  case 'tarde':
+                    page.drawText(( timingDoses[t].dose) ?? '', { x: 430, y: doseRowPosition, size: pageFontSize, font: pageFont});
+                    break;
+                  case 'noche':
+                    page.drawText(( timingDoses[t].dose) ?? '', { x: 490, y: doseRowPosition, size: pageFontSize, font: pageFont});
+                    break;
+                }
+              }
+            }
+          }
+        }
+        // on the first line print the Duration and units
+        page.drawText((p.duration + " " + p.durationUnits) ?? '', {x: 555, y: rowPosition, size: pageFontSize, font: pageFont});
       }
       if (instructionLines.length > i) {
-        page.drawText(instructionLines[i] ?? '', {x: 450, y: rowPosition, size: pageFontSize, font: pageFont});
+        page.drawText(instructionLines[i] ?? '', {x: 635, y: rowPosition, size: pageFontSize, font: pageFont});
       }
     }
     page.drawLine({
-      start: { x: 30, y: rowPosition-5 },
-      end: { x: 750, y: rowPosition-5 },
+      start: { x: 30, y: rowPosition - 5 },
+      end: { x: 750, y: rowPosition - 5 },
       thickness: 1,
       color: PDFLib.rgb(1.0,0.59608, 0.0),
       opacity: 0.33,

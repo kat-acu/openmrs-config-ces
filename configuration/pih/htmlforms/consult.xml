@@ -2312,21 +2312,51 @@
                     jq("span.medication:visible").each(function() {
                         jq(this).children('fieldset.medication:visible').each(function() {
                             <ifMode mode="VIEW" include="false">
-                            const drugName = jq(this).find('.medication-name').children('input:first-child').val(); // Enter/edit mode
+                                const drugName = jq(this).find('.medication-name').children('input:first-child').val(); // Enter/edit mode
                             </ifMode>
                             <ifMode mode="VIEW" include="true">
-                            const drugName = jq(this).find('.medication-name').html();
+                                const drugName = jq(this).find('.medication-name').html();
                             </ifMode>
+                            let medsDoses = [];
                             if (drugName) {
                                 <ifMode mode="VIEW" include="false">
-                                const amount = jq(this).find('.medication-amount').children('input:first-child').val();
-                                const instructions = jq(this).find('.medication-instructions').children('input:first-child').val();
+                                    const duration = jq(this).find('.medication-duration').children('input:first-child').val();
+                                    const durationUnits = jq(this).find('.medication-units option:selected').html();
+                                    const instructions = jq(this).find('.medication-instructions').children('input:first-child').val();
+
+                                    jq(this).find('.medication-dose').each( function() {
+                                        const doseAmount = jq(this).find('.medication-amount').children('input:first-child').val();
+                                        const doseUnits = jq(this).find('.medication-dose-unit option:selected').html();
+                                        let timingDoses = [];
+                                        // for each dose look for timing of day checkboxes
+                                        jq(this).find('.inline-timing').children('input[type=checkbox]:checked').each( function() {
+                                            const timing = jq(this).val();
+                                            const timingDose = jq(this).parent().children('input[type=text]').val();
+                                            const label = jq(this).parent().children('label').text();
+                                            timingDoses.push( {
+                                                "label": label.toLowerCase(),
+                                                "dose" : timingDose
+                                            });
+                                        });
+                                        medsDoses.push({
+                                            "doseAmount": doseAmount,
+                                            "doseUnits": doseUnits,
+                                            "timingDoses": timingDoses
+                                        });
+                                    });
                                 </ifMode>
                                 <ifMode mode="VIEW" include="true">
-                                const amount = jq(this).find('.medication-amount .value').html();
-                                const instructions = jq(this).find('.medication-instructions .value').html();
+                                    const duration = null;
+                                    const durationUnits = null;
+                                    const instructions = jq(this).find('.medication-instructions .value').html();
                                 </ifMode>
-                                prescriptions.push({"drugName": drugName, "amount": amount, "instructions": instructions});
+                                prescriptions.push({
+                                    "drugName": drugName,
+                                    "medsDoses": medsDoses,
+                                    "duration": duration,
+                                    "durationUnits": durationUnits,
+                                    "instructions": instructions
+                                });
                             }
                         });
                     });
