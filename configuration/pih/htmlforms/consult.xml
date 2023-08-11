@@ -280,6 +280,32 @@
 
     </style>
 
+    <script type="text/javascript">
+
+        jq(document).ready(function() {
+            const contextPath = window.location.href.split('/')[3];
+            const apiBaseUrl =  "/" + contextPath + "/ws/rest/v1";
+            const patientUuid = '<lookup expression="patient.uuid"/>';
+            let allergies = '';
+
+            jq.getJSON(apiBaseUrl + "/patient/" + patientUuid + "/allergy", {
+              v: 'custom:(display)'
+            },
+            function( data ){
+              if (data.results &amp;&amp; data.results.length > 0 ) {
+                  for ( let a = 0; a  &lt; data.results.length; ++a ) {
+                    if ( a === 0 ) {
+                      allergies = data.results[a].display;
+                    } else {
+                      allergies = allergies + ", " + data.results[a].display;
+                    }
+                  }
+                  jq("#patientAllergies").val(allergies);
+              }
+            });
+        });
+    </script>
+
     <div class="print-form-datestamps" style="display:none">
         <p><uimessage code="created_on"/>:
             <lookup complexExpression="$form.dateCreated"/>
@@ -2068,6 +2094,7 @@
 
         <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
                  headerCode="pihcore.ncd.meds">
+            <input id="patientAllergies" type="hidden" value=""/>
             <div class="section-container">
                 <repeat with="['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8'],['9'],['10'],['11'],['12']">
                     <span id="medication-{0}" class="medication">
@@ -2288,7 +2315,8 @@
                     const givenName = jq(".zl-givenName").html().trim();
                     const familyName = jq(".zl-familyName").html().trim().replace(',', '');
                     const patientName = givenName + ' ' + familyName;
-
+                    const patientAllergies = jq("#patientAllergies").val();
+                    
                     // Patient Age
                     const birthdate = moment('<lookup complexExpression="$fn.formatDate($patient.birthdate, 'yyyy-MM-dd')"/>');
                     const age = Math.floor(moment.duration(consultDate.diff(birthdate)).as('years'));
@@ -2380,7 +2408,7 @@
                         });
                     });
 
-                    printPrescription(formattedConsultDate, patientName, age, diagnoses, prescriptions);
+                    printPrescription(formattedConsultDate, patientName, age, diagnoses, prescriptions, patientAllergies);
                 });
             });
         </script>
