@@ -2323,31 +2323,50 @@
                                     const duration = jq(this).find('.medication-duration').children('input:first-child').val();
                                     const durationUnits = jq(this).find('.medication-units option:selected').html();
                                     const instructions = jq(this).find('.medication-instructions').children('input:first-child').val();
-
+                                </ifMode>
                                     jq(this).find('.medication-dose').each( function() {
-                                        const doseAmount = jq(this).find('.medication-amount').children('input:first-child').val();
-                                        const doseUnits = jq(this).find('.medication-dose-unit option:selected').html();
+                                        <ifMode mode="VIEW" include="false">
+                                            const doseAmount = jq(this).find('.medication-amount').children('input:first-child').val();
+                                            const doseUnits = jq(this).find('.medication-dose-unit option:selected').html();
+                                        </ifMode>
+                                        <ifMode mode="VIEW" include="true">
+                                            const doseAmount = jq(this).find('.medication-amount').children('span:first-child').html();
+                                            const doseUnits = jq(this).find('.medication-dose-unit').children('span:first-child').html();
+                                        </ifMode>
                                         let timingDoses = [];
                                         // for each dose look for timing of day checkboxes
-                                        jq(this).find('.inline-timing').children('input[type=checkbox]:checked').each( function() {
-                                            const timing = jq(this).val();
-                                            const timingDose = jq(this).parent().children('input[type=text]').val();
-                                            const label = jq(this).parent().children('label').text();
-                                            timingDoses.push( {
-                                                "label": label.toLowerCase(),
-                                                "dose" : timingDose
+                                        <ifMode mode="VIEW" include="false">
+                                            jq(this).find('.inline-timing').children('input[type=checkbox]:checked').each( function() {
+                                                const timing = jq(this).val();
+                                                const timingDose = jq(this).parent().children('input[type=text]').val();
+                                                const label = jq(this).parent().children('label').text();
+                                                timingDoses.push( {
+                                                    "label": label.toLowerCase(),
+                                                    "dose" : timingDose
+                                                });
                                             });
-                                        });
+                                        </ifMode>
+                                        <ifMode mode="VIEW" include="true">
+                                            const substringToRemove = '[X] ';
+                                            jq(this).find('.inline-timing').children('span.value:first-child').each(function() {
+                                                const label = jq(this).text().replace(substringToRemove, '');
+                                                const timingDose = jq(this).next(".value").text();
+                                                timingDoses.push( {
+                                                    "label": label.toLowerCase(),
+                                                    "dose" : timingDose
+                                                });
+                                            });
+                                        </ifMode>
                                         medsDoses.push({
                                             "doseAmount": doseAmount,
                                             "doseUnits": doseUnits,
                                             "timingDoses": timingDoses
                                         });
                                     });
-                                </ifMode>
+
                                 <ifMode mode="VIEW" include="true">
-                                    const duration = null;
-                                    const durationUnits = null;
+                                    const duration = jq(this).find('.medication-duration').children('span:first-child').html();
+                                    const durationUnits = jq(this).find('.medication-units').children('span:first-child').html();
                                     const instructions = jq(this).find('.medication-instructions .value').html();
                                 </ifMode>
                                 prescriptions.push({
