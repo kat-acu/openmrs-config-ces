@@ -297,6 +297,7 @@ async function printPrescription(formattedConsultDate, patientName, age, diagnos
   form.getTextField('allergies').setText(allergies);
 
   const pageFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+  const zapfDingbatsFont = await pdfDoc.embedFont(PDFLib.StandardFonts.ZapfDingbats);
   const pageFontSize = 10;
   // when Y coordinate goes lower that this insert a new page
   const minY = 130;
@@ -353,18 +354,55 @@ async function printPrescription(formattedConsultDate, patientName, age, diagnos
             if (timingDoses != null ) {
               for (let t = 0; t < timingDoses.length; t++) {
                 const label = timingDoses[t].label;
+                const printCheckmark = timingDoses[t].dose ? false : true;
                 switch (label) {
                   case 'mañana':
-                    page.drawText(( timingDoses[t].dose) ?? '', { x: 285, y: doseRowPosition, size: pageFontSize, font: pageFont});
+                    if ( printCheckmark ) {
+                      page.drawText('\u2714', { x: 290, y: doseRowPosition, size: pageFontSize, font: zapfDingbatsFont});
+                    } else {
+                      page.drawText((timingDoses[t].dose) ?? '', {
+                        x: 285,
+                        y: doseRowPosition,
+                        size: pageFontSize,
+                        font: pageFont
+                      });
+                    }
                     break;
                   case 'medio dia':
-                    page.drawText(( timingDoses[t].dose) ?? '', { x: 345, y: doseRowPosition, size: pageFontSize, font: pageFont});
+                    if ( printCheckmark ) {
+                      page.drawText('\u2714', { x: 350, y: doseRowPosition, size: pageFontSize, font: zapfDingbatsFont});
+                    } else {
+                      page.drawText((timingDoses[t].dose) ?? '', {
+                        x: 345,
+                        y: doseRowPosition,
+                        size: pageFontSize,
+                        font: pageFont
+                      });
+                    }
                     break;
                   case 'tarde':
-                    page.drawText(( timingDoses[t].dose) ?? '', { x: 430, y: doseRowPosition, size: pageFontSize, font: pageFont});
+                    if ( printCheckmark ) {
+                      page.drawText('\u2714', { x: 435, y: doseRowPosition, size: pageFontSize, font: zapfDingbatsFont});
+                    } else {
+                      page.drawText((timingDoses[t].dose) ?? '', {
+                        x: 430,
+                        y: doseRowPosition,
+                        size: pageFontSize,
+                        font: pageFont
+                      });
+                    }
                     break;
                   case 'noche':
-                    page.drawText(( timingDoses[t].dose) ?? '', { x: 490, y: doseRowPosition, size: pageFontSize, font: pageFont});
+                    if ( printCheckmark ) {
+                      page.drawText('\u2714', { x: 495, y: doseRowPosition, size: pageFontSize, font: zapfDingbatsFont});
+                    } else {
+                      page.drawText((timingDoses[t].dose) ?? '', {
+                        x: 490,
+                        y: doseRowPosition,
+                        size: pageFontSize,
+                        font: pageFont
+                      });
+                    }
                     break;
                 }
               }
