@@ -298,7 +298,12 @@ async function printPrescription(formattedConsultDate, patientName, age, diagnos
 
   const pageFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
   const pageFontSize = 10;
-  const page = pdfDoc.getPages()[0];
+  // when Y coordinate goes lower that this insert a new page
+  const minY = 130;
+  let page = pdfDoc.getPages()[0];
+  form.flatten();
+
+  const [templatePage] = await pdfDoc.copyPages(pdfDoc, [0]);
 
   let rowPosition = 420;
   let doseRowPosition = rowPosition;
@@ -322,6 +327,14 @@ async function printPrescription(formattedConsultDate, patientName, age, diagnos
     if ( doseRowPosition < rowPosition  ) {
       rowPosition = doseRowPosition ;
     } else {
+      doseRowPosition = rowPosition;
+    }
+
+    if ( (doseRowPosition - (maxlines * 20)) < minY) {
+      //time to insert a new page
+      page = pdfDoc.addPage(templatePage);
+      // reset the row position
+      rowPosition = 420;
       doseRowPosition = rowPosition;
     }
 
@@ -383,7 +396,6 @@ async function printPrescription(formattedConsultDate, patientName, age, diagnos
    * clone the first page of the PDF and add as many pages as needed given the expected number of lines of content
    */
 
-  form.flatten();
 
   const pdfData = await pdfDoc.saveAsBase64();
 
