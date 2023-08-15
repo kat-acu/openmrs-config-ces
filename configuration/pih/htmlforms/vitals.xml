@@ -302,7 +302,7 @@
 
         <fieldset>
             <legend><uimessage code="mirebalais.vitals.respiratoryRate.title"/></legend>
-            
+            <h3><uimessage code="mirebalais.vitals.respiratoryRate.title"/></h3>
 
             <p>
                 <obs conceptId="PIH:RESPIRATORY RATE" id="respiratory_rate" showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
