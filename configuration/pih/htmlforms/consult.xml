@@ -353,6 +353,34 @@
                 <tbody>
                     <tr>
                         <td>
+                            <uimessage code="mirebalais.vitals.weight.title"/>
+                        </td>
+                        <td>
+                            <lookup expression="fn.latestObs('PIH:WEIGHT (KG)').obsDatetime"/>
+                        </td>
+                        <td>
+                            <lookup expression="fn.latestObs('PIH:WEIGHT (KG)').valueNumeric.intValue()"/>
+                            <span class="light-font">
+                                <lookup complexExpression="#if($fn.latestObs('PIH:WEIGHT (KG)')) kg #end" />
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <uimessage code="mirebalais.vitals.height.title"/>
+                        </td>
+                        <td>
+                            <lookup expression="fn.latestObs('PIH:HEIGHT (CM)').obsDatetime"/>
+                        </td>
+                        <td>
+                            <lookup expression="fn.latestObs('PIH:HEIGHT (CM)').valueNumeric.intValue()"/>
+                            <span class="light-font">
+                                <lookup complexExpression="#if($fn.latestObs('PIH:HEIGHT (CM)')) cm #end" />
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <uimessage code="mirebalais.vitals.bloodPressure.title" />
                         </td>
                         <td>
