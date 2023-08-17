@@ -247,12 +247,16 @@
         }
 
         p.inline-timing > * {
-            display: inline;
+            display: inline-block;
         }
 
         p.inline-timing > input[type="text"] {
             min-width: 40px;
             margin-left: 20px;
+        }
+
+        p.inline-timing > label {
+            width: 80px;
         }
 
         #Alert{
@@ -2167,6 +2171,22 @@
                                                 </p>
                                             </div>
                                         </div>
+                                        <div class="two-columns" style="width:40%">
+                                            <div class="small-text">
+                                                <p class="inline">
+                                                    <span style="white-space: nowrap">
+                                                        <label><uimessage code="ces.dispensing.frequency"/></label>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div class="small-text">
+                                                <p class="inline">
+                                                    <span style="white-space: nowrap">
+                                                        <label><uimessage code="ces.dispensing.timing.dosing"/></label>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
                                         <p class="inline-timing">
                                             <obs conceptId="PIH:Part of the day"
                                                  style="checkbox"
@@ -2222,6 +2242,22 @@
                                                                 answerConceptIds="$puff,$milliGram,$milliLiter,$capsule,$tablet"
                                                                 answerCodes="puff(s),mg,mL,capsule,tablet"
                                                         />
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="two-columns" style="width:40%">
+                                            <div class="small-text">
+                                                <p class="inline">
+                                                    <span style="white-space: nowrap">
+                                                        <label><uimessage code="ces.dispensing.frequency"/></label>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div class="small-text">
+                                                <p class="inline">
+                                                    <span style="white-space: nowrap">
+                                                        <label><uimessage code="ces.dispensing.timing.dosing"/></label>
                                                     </span>
                                                 </p>
                                             </div>
