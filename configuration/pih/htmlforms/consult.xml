@@ -2165,7 +2165,7 @@
                                                                     class="medication-dose-unit"
                                                                     conceptId="PIH:Dosing units coded"
                                                                     answerConceptIds="$puff,$milliGram,$milliLiter,$capsule,$tablet"
-                                                                    answerCodes="puff(s),mg,mL,capsule,tablet"
+                                                                    answerCodes="soplo,mg,mL,capsula,tableta"
                                                             />
                                                     </span>
                                                 </p>
@@ -2240,7 +2240,7 @@
                                                                 class="medication-dose-unit"
                                                                 conceptId="PIH:14825"
                                                                 answerConceptIds="$puff,$milliGram,$milliLiter,$capsule,$tablet"
-                                                                answerCodes="puff(s),mg,mL,capsule,tablet"
+                                                                answerCodes="soplo,mg,mL,capsula,tableta"
                                                         />
                                                     </span>
                                                 </p>
