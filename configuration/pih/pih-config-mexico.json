@@ -42,8 +42,8 @@
   },
   "scheduleBackupReports": "false",
   "dashboardUrl": "/coreapps/clinicianfacing/patient.page?patientId={{patientId}}&app=pih.app.clinicianDashboard",
-  "visitsPageUrl": "/pihcore/visit/visit.page?patient={{patient.uuid}}#/visitList",
-  "visitsPageWithSpecificUrl": "/pihcore/visit/visit.page?patient={{patient.uuid}}&visit={{visit.uuid}}#/overview",
+  "visitsPageUrl": "/coreapps/patientdashboard/patientDashboard.page?patientId={{patient.uuid}}#visits",
+  "visitsPageWithSpecificUrl": "/coreapps/patientdashboard/patientDashboard.page?patientId={{patient.uuid}}&visitId={{visit.id}}#visits",
   "providerIdentifierPrefix": "C",
   "dossierIdentifierPrefix": "D",
   "addressConfig": {
