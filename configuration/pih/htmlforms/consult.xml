@@ -1191,96 +1191,6 @@
         </div>
 
         <div class="question-container">
-            <label>Reporte de ultrasonido (Formal/Privado/Hospital)</label>
-            <div class="two-columns">
-                <div class="small-text">
-                    <p>
-                        <!-- This doesn't work, but I'd like it to. See https://issues.openmrs.org/browse/RC-35 -->
-                        <!-- <lookup complexExpression="#foreach($obs in $fn.allObs('PIH:7018')) $obs.obsDatetime #end"/> -->
-                        <lookup expression="fn.latestObs('PIH:7018').obsDatetime"/>
-                    </p>
-                    <p>
-                        <lookup expression="fn.latestObs('PIH:7018').valueText"/>
-                    </p>
-                </div>
-                <div>
-                    <obs conceptId="PIH:7018" style="textarea" rows="4"/>
-                </div>
-            </div>
-        </div>
-
-        <!-- HIV & Syphalis tests -->
-        <div class="question-container">
-            <label>
-                Prueba de VIH
-            </label>
-            <div class="two-columns">
-                <div class="small-text">
-                    <lookup expression="fn.latestObs('CIEL:163722').obsDatetime"/>
-                    <lookup complexExpression="#if($fn.latestObs('CIEL:163722')) &#8194; &#8227; &#8194; #end" />
-                    <lookup expression="fn.latestObs('CIEL:163722').valueCoded.name" />
-                </div>
-                <div>
-                    <obs conceptId="CIEL:163722"
-                         answerConceptIds="CIEL:703,CIEL:664"
-                         style="radio" answerSeparator="" />
-                </div>
-            </div>
-        </div>
-        <div class="question-container">
-            <label>
-                <uimessage code="pihcore.lab.vdrl"/>
-            </label>
-            <div class="two-columns">
-                <div class="small-text">
-                    <lookup expression="fn.latestObs('CIEL:299').obsDatetime" />
-                    <lookup complexExpression="#if($fn.latestObs('CIEL:299')) &#8194; &#8227; &#8194; #end" />
-                    <lookup expression="fn.latestObs('CIEL:299').valueCoded.name" />
-                </div>
-                <div>
-                    <obs conceptId="CIEL:299"
-                         answerConceptIds="CIEL:703,CIEL:664"
-                         style="radio" answerSeparator="" />
-                </div>
-            </div>
-            
-        </div>
-
-        <div class="question-container">
-            <label>
-                Hepatitis B
-            </label>
-            <div class="two-columns">
-                <div class="small-text">
-                    <lookup expression="fn.latestObs('PIH:HEPATITIS B TEST - QUALITATIVE').obsDatetime" />
-                    <lookup complexExpression="#if($fn.latestObs('PIH:HEPATITIS B TEST - QUALITATIVE')) &#8194; &#8227; &#8194; #end" />
-                    <lookup expression="fn.latestObs('PIH:HEPATITIS B TEST - QUALITATIVE').valueCoded.name" />
-                </div>
-                <div>
-                    <obs conceptId="PIH:HEPATITIS B TEST - QUALITATIVE"
-                         answerConceptIds="CIEL:703,CIEL:664"
-                         style="radio" answerSeparator="" />
-                </div>
-            </div>
-            
-        </div>
-
-        <div class="question-container">
-            <label>
-                Hemoglobina(Hgb)
-            </label>
-            <div class="two-columns">
-                <div class="small-text">
-                    <!-- See https://issues.openmrs.org/browse/RC-35 -->
-                    <lookup complexExpression="#foreach($obs in $fn.allObs('CIEL:21')) $obs.valueNumeric — $obs.obsDatetime #end"/>
-                </div>
-                <div>
-                    <obs class="small" conceptId="CIEL:21" showUnits="true" />
-                </div>
-            </div>
-        </div>
-
-        <div class="question-container">
             <label><uimessage code="pihcore.lab.urinary_albumin"/></label>
             <div class="two-columns">
                 <div class="small-text">
@@ -1680,30 +1590,22 @@
                          style="radio" answerSeparator="" />
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Prevencion de control de infecciones -->
-     <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Prevención de control de infecciones">
-      <!-- TB -->
-        <div class="section-container">
+            <br/><br/>
             <div class="two-columns">
                 <div class="small-text">
                     <p>Sospecha de tuberculosis:</p>
                     <obs id="SuspectedTB"
-                        conceptId="PIH:Is TB suspected"
-                        answerConceptIds="CIEL:1065, CIEL:1066"
-                        style="radio"
-                        answerSeparator="">
+                         conceptId="PIH:Is TB suspected"
+                         answerConceptIds="CIEL:1065, CIEL:1066"
+                         style="radio"
+                         answerSeparator="">
 
                         <controls>
                             <when value="CIEL:1065" thenDisplay="#OptionsTB"/>
                         </controls>
-                   </obs>
-
+                    </obs>
                 </div>
                 <div id="OptionsTB">
-
                     <p>Resultado de prueba:</p>
                     <obs conceptId="PIH:Tuberculosis culture result"
                          answerConceptIds="PIH:NOT DONE,PIH:NEGATIVE,PIH:POSITIVE"
@@ -1715,47 +1617,9 @@
                          style="textarea"
                          labelText="Observaciones:"
                          rows="5"/>
-
                 </div>
             </div>
         </div>
-
-        <!-- VIH -->
-        <div class="section-container">
-            <div class="two-columns">
-                <div class="small-text">
-
-                    <p>Sospecha de VIH:</p>
-                    <obs id="SuspectedVIH"
-                        conceptId="PIH:Is HIV suspected"
-                        answerConceptIds="CIEL:1065, CIEL:1066"
-                        style="radio"
-                        answerSeparator="">
-
-                        <controls>
-                            <when value="CIEL:1065" thenDisplay="#OptionsVIH"/>
-                        </controls>
-                   </obs>
-
-                </div>
-                <div id="OptionsVIH">
-
-                    <p>Resultado de prueba:</p>
-                    <obs conceptId="PIH:RESULT OF HIV TEST"
-                         answerConceptIds="PIH:NOT DONE,PIH:NEGATIVE,PIH:POSITIVE"
-                         style="radio"
-                         answerSeparator=""/>
-                    <br/>
-
-                    <obs conceptId="PIH:Suspected HIV free-text notes"
-                         style="textarea"
-                         labelText="Observaciones:"
-                         rows="5"/>
-
-                </div>
-            </div>
-        </div>
-
         <!-- COVID -->
         <div class="section-container">
             <div class="tres-columns">
@@ -1763,41 +1627,41 @@
 
                     <p>Sospecha de Covid-19:</p>
                     <obs id="SuspectedCOVID-19"
-                        conceptId="PIH:Is COVID suspected"
-                        answerConceptIds="CIEL:1065, CIEL:1066"
-                        style="radio"
-                        answerSeparator="">
+                         conceptId="PIH:Is COVID suspected"
+                         answerConceptIds="CIEL:1065, CIEL:1066"
+                         style="radio"
+                         answerSeparator="">
 
                         <controls>
                             <when value="CIEL:1065" thenDisplay="#TipoPruebaCovid"/>
                         </controls>
-                   </obs>
+                    </obs>
 
                 </div>
 
                 <div id="TipoPruebaCovid">
 
-                   <p>Tipo de prueba:</p>
-                   <obs id="whattype"
-                        conceptId="PIH:Type of COVID test"
-                        answerConceptIds="CIEL:165840,CIEL:165853,CIEL:165852"
-                        answerLabels="PCR,Anticuerpos,Antigeno"
-                        style="radio"
-                        answerSeparator="">
+                    <p>Tipo de prueba:</p>
+                    <obs id="whattype"
+                         conceptId="PIH:Type of COVID test"
+                         answerConceptIds="CIEL:165840,CIEL:165853,CIEL:165852"
+                         answerLabels="PCR,Anticuerpos,Antigeno"
+                         style="radio"
+                         answerSeparator="">
 
                         <controls>
                             <when value="CIEL:165840" thenDisplay="#OptionsPCR"/>
                             <when value="CIEL:165853" thenDisplay="#OptionsAnticuerpos"/>
                             <when value="CIEL:165852" thenDisplay="#OptionsAntigeno"/>
                         </controls>
-                   </obs>
-                   <br/>
+                    </obs>
+                    <br/>
 
-                   <obs conceptId="PIH:Suspected TB free-text notes"
-                        style="textarea"
-                        labelText="Observaciones:"
-                        rows="5"/>
-                   <br/>
+                    <obs conceptId="PIH:Suspected TB free-text notes"
+                         style="textarea"
+                         labelText="Observaciones:"
+                         rows="5"/>
+                    <br/>
 
                 </div>
 
@@ -1830,8 +1694,7 @@
             </div>
         </div>
     </section>
-
-
+    
     <!-- Analysis -->
     <ifMode mode="VIEW" include="false">
         <h1>
