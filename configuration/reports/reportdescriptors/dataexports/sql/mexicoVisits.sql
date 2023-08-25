@@ -15,6 +15,7 @@ drop temporary table if exists temp_mexico_consults;
 create temporary table temp_mexico_consults
 (
 consult_id			int not null AUTO_INCREMENT,
+emr_id              varchar(50),
 patient_id          int,          
 visit_id            int(11), 
 first_name			varchar(255),
@@ -95,6 +96,9 @@ inner join encounter e on e.encounter_id =
 	and date(e2.encounter_datetime) = date(t.encounter_datetime)
 	order by e2.encounter_datetime desc limit 1)
 set t.vitals_encounter_id = e.encounter_id;
+
+update temp_mexico_consults t
+set emr_id = patient_identifier(patient_id,'506add39-794f-11e8-9bcd-74e5f916c5ec');
 
 update temp_mexico_consults t
 inner join person p on t.patient_id = p.person_id 
@@ -247,8 +251,7 @@ set clinical_note =
 		first_last_name, ', ',
 		gender, ' de ',
 		IF(TIMESTAMPDIFF(MONTH, birthdate, encounter_datetime) < 12, TIMESTAMPDIFF(MONTH, birthdate, encounter_datetime),TIMESTAMPDIFF(YEAR, birthdate, encounter_datetime)),
-		IF(TIMESTAMPDIFF(MONTH, birthdate, encounter_datetime) < 12, ' meses por ', ' años por '),
-		if(provider is not null,CONCAT(provider,'. '),''),
+		IF(TIMESTAMPDIFF(MONTH, birthdate, encounter_datetime) < 12, ' meses por ', ' años.  '),
 		if(subjective is not null, CONCAT(subjective,'. '), ''),
   		if(pe_comment is not null, CONCAT(pe_comment,'. '), ''),
 		if(analysis is not null, CONCAT(analysis,'. '), ''),
@@ -276,6 +279,7 @@ INSERT (
 	
 -- final output of all columns needed
 select 
+	emr_id,
 	CONCAT(LEFT(first_name,1),LEFT(last_name,1),'-',consult_id) "consult_id",
 	encounter_id,
 	first_last_name,
@@ -309,5 +313,6 @@ select
 	clinical_note,
 	diagnoses,
 	rapid_tests,
-	treatment
+	treatment,
+	provider
 from temp_mexico_consults;
