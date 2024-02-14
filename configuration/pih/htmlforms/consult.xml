@@ -58,7 +58,7 @@
             background-color: white !important;
         }
 
-        .two-columns {
+        .two-columns, .three-columns {
             display: table;
             height: 100%;
             width: 100%;
@@ -83,10 +83,9 @@
             font-size: 16px;
         }
 
-        .three-columns {
-            column-count: 3;
-            -webkit-column-count: 3;
-            -moz-column-count: 3;
+        .three-columns > div {
+            display: table-cell;
+            width: 33%;
         }
 
         .four-columns {
@@ -282,6 +281,28 @@
             text-align: center;
         }
 
+        .side-by-side label {
+            display: inline-block;
+        }
+
+        .list-inline label, .list-inline input[type="radio"], .list-inline span,
+        .list-inline-wide label, .list-inline-wide input[type="radio"], .list-inline-wide span,
+        .list-inline-extra-wide label, .list-inline-extra-wide input[type="radio"], .list-inline-extra-wide span {
+            display: inline-block;
+            float: none;
+        }
+
+        .list-inline label:first-child {
+            width: 220px;
+        }
+
+        .list-inline-wide label:first-child {
+            width: 320px;
+        }
+
+        .list-inline-extra-wide label:first-child {
+            width: 420px;
+        }
     </style>
 
     <script type="text/javascript">
@@ -2000,6 +2021,7 @@
                             </h3>
                             <fieldset class="medication">
                                 <p class="field-error" style="display:none"></p>
+
                                 <p>
                                     <label>
                                         <uimessage code="mirebalais.dispensing.medicationName"/>
@@ -2007,6 +2029,14 @@
                                     <obs id="name{0}" class="medication-name" conceptId="CIEL:1282"
                                          answerDrugs="true" includeRetiredDrugs="false"/>
                                 </p>
+
+                                <p class="side-by-side">
+                                    <div class="medium">
+                                        <obs id="container{0}" class="container-number" conceptId="PIH:15173"
+                                             labelCode="mirebalais.dispensing.numberContainers"/>
+                                    </div>
+                                </p>
+
                                 <div class="section-container">
                                     <div class="medication-dose">
                                         <label>
@@ -2159,24 +2189,27 @@
                                         </p>
                                     </div>
                                     <p>
-                                        <label>
-                                            <uimessage code="mirebalais.dispensing.medicationDuration"/>
-                                        </label>
+
                                     </p>
-                                    <div class="two-columns" style="width:40%">
-                                        <div class="small-text">
-                                            <p class="inline">
-                                                <span style="white-space: nowrap">
-                                                    <obs id="duration{0}" class="medication-duration" conceptId="PIH:9075"/>
-                                                </span>
-                                            </p>
+                                    <div class="two-columns">
+                                        <div class="list-inline">
+                                            <label>
+                                                <uimessage code="mirebalais.dispensing.medicationDuration"/>
+                                            </label>
+                                            <obs id="no-duration{0}" class="no-medication-duration"
+                                                 style="radio" conceptId="PIH:15174"
+                                                 answerConceptIds="CIEL:1065,CIEL:1066"
+                                                 answerCodes="emr.yes,mirebalais.dispensing.noDuration">
+                                                <controls>
+                                                    <when value="CIEL:1065" thenDisplay="#duration-details{0}" />
+                                                </controls>
+                                            </obs>
                                         </div>
-                                        <div class="small-text">
-                                            <p class="inline">
-                                                <span style="white-space: nowrap">
-                                                    <obs id="durationUnits{0}" class="medication-units" conceptId="PIH:TIME UNITS"/>
-                                                </span>
-                                            </p>
+                                        <div id="duration-details{0}" class="list-inline">
+                                            <obs id="duration{0}" class="medication-duration" conceptId="PIH:9075"/>
+                                            <obs id="durationUnits{0}" class="medication-units"
+                                                 conceptId="PIH:TIME UNITS"
+                                                 answerConceptIds="PIH:Minutes,PIH:Hours,PIH:Days,PIH:Weeks,PIH:Months,PIH:YEARS,CIEL:162582"/>
                                         </div>
                                     </div>
                                     <p>
@@ -2341,6 +2374,7 @@
         </script>
     </div>
     <br/>
+
     <ifMode mode="VIEW" include="false">
         <div id="buttons">
             <submit submitClass="confirm right" submitCode="mirebalais.save"/>
