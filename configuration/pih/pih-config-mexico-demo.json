@@ -1,9 +1,8 @@
 {
   
   "welcomeMessage": "EMR de Compañeros en Salud - Demo",
-  "browserWarning": "Por favor utiliza <b>Google Chrome</b> como navagador",
 
-  "site": "REFORMA",
+  "site": "CES_CLOUD",
 
   "primaryIdentifierPrefix": "DEM",
   "providerIdentifierPrefix": "CES",
@@ -11,7 +10,6 @@
   "components": [
     "allergies",
     "ancProgram",
-    "archives",
     "asthmaProgram",
     "bmiOnClinicianDashboard",
     "chwApp",
@@ -21,9 +19,8 @@
     "epilepsyProgram",
     "hypertensionProgram",
     "malnutritionProgram",
-    "managePrinters",
-    "markPatientDead",
     "mentalHealthProgram",
+    "markPatientDead",
     "myAccount",
     "overviewReports",
     "patientDocuments",
