@@ -2113,7 +2113,13 @@
                                                  commentFieldLabel=""/>
                                         </p>
                                     </div>
-                                    <div class="medication-dose">
+                                    <!-- Using dummy concept to show Dose 2 -->
+                                    <obs id="ask-deux" conceptId="PIH:14678" style="checkbox"
+                                         answerConceptId="PIH:YES" answerCode="pihcore.addDoseTwo">
+                                        <when value="PIH:YES" thenDisplay="#dose-deux"/>
+                                    </obs>
+
+                                    <div id="dose-deux" class="medication-dose">
                                         <label>
                                             <uimessage code="mirebalais.dispensing.medicationDose"/>  2
                                         </label>
@@ -2196,6 +2202,7 @@
                                             <label>
                                                 <uimessage code="mirebalais.dispensing.medicationDuration"/>
                                             </label>
+                                            <!-- ToDo: Remove per MEX-610
                                             <obs id="no-duration{0}" class="no-medication-duration"
                                                  style="radio" conceptId="PIH:15174"
                                                  answerConceptIds="CIEL:1065,CIEL:1066"
@@ -2204,12 +2211,14 @@
                                                     <when value="CIEL:1065" thenDisplay="#duration-details{0}" />
                                                 </controls>
                                             </obs>
+                                            -->
                                         </div>
                                         <div id="duration-details{0}" class="list-inline">
                                             <obs id="duration{0}" class="medication-duration" conceptId="PIH:9075"/>
+                                            <!-- ToDo: replace uuid with PIH:20022 -->
                                             <obs id="durationUnits{0}" class="medication-units"
                                                  conceptId="PIH:TIME UNITS"
-                                                 answerConceptIds="PIH:Minutes,PIH:Hours,PIH:Days,PIH:Weeks,PIH:Months,PIH:YEARS,CIEL:162582"/>
+                                                 answerConceptIds="PIH:Minutes,PIH:Hours,PIH:Days,PIH:Weeks,PIH:Months,PIH:YEARS,CIEL:162582,d1b0ef4a-dafd-4c06-ba87-daa4e47086dd"/>
                                         </div>
                                     </div>
                                     <p>
