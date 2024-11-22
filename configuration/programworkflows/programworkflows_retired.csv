@@ -7,3 +7,4 @@ ${programWorkflow.infantProgramEidTreatmentStatus.uuid},true,${program.infant.uu
 157333e6-6851-11e8-adc0-fa7ae01bbebc,true,${program.oncology.uuid},PIH:Oncology program status
 45ffa97a-684e-11e8-adc0-fa7ae01bbebc,true,${program.oncology.uuid},PIH:Oncology treatment status
 ${programWorkflow.pregnancyProgramTypeOfTreatment.uuid},true,${program.pregnancy.uuid},PIH:11698
+51579bce-bf3a-11e7-abc4-cec278b6b50a,true,${program.ncd.uuid},PIH:NCD clinical status
