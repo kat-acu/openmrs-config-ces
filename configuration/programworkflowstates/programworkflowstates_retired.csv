@@ -21,3 +21,6 @@ fdcd3bec-7beb-45e8-8c01-0cb14a9a2b75,true,${programWorkflow.infantProgramEidTrea
 04de4ef3-c06d-46d1-9f2c-8f3ae37ad618,true,${programWorkflow.infantProgramEidTreatmentStatus.uuid},PIH:ON ANTIRETROVIRALS,true,
 ${programWorkflow.pregnancyProgramTypeOfTreatment.state.prenatalIndividual.uuid},true,${programWorkflow.pregnancyProgramTypeOfTreatment.uuid},PIH:11700,true,
 ${programWorkflow.pregnancyProgramTypeOfTreatment.state.postpartum.uuid},true,${programWorkflow.pregnancyProgramTypeOfTreatment.uuid},PIH:13137,true,
+51579e44-bf3a-11e7-abc4-cec278b6b50a,true,PIH:NCD clinical status,PIH:11507,true,
+51579fde-bf3a-11e7-abc4-cec278b6b50a,true,PIH:NCD clinical status,PIH:11508,true,
+5157a15a-bf3a-11e7-abc4-cec278b6b50a,true,PIH:NCD clinical status,PIH:11509,true,
