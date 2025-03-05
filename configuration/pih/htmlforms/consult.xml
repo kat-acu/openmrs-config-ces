@@ -245,17 +245,21 @@
             margin-bottom: 20px;
         }
 
-        p.inline-timing > * {
+        .inline-timing > span {
+            white-space: nowrap;
+        }
+        .inline-timing > span > * {
             display: inline-block;
         }
 
-        p.inline-timing > input[type="text"] {
+        .inline-timing > span > input[type="text"] {
             min-width: 40px;
-            margin-left: 20px;
+            margin-left: 40px;
         }
 
-        p.inline-timing > label {
+        .inline-timing > span > label {
             width: 80px;
+            margin-left: 10px;
         }
 
         #Alert{
@@ -317,7 +321,7 @@
               v: 'custom:(display)'
             },
             function( data ){
-              if (data.results &amp;&amp; data.results.length > 0 ) {
+              if (data &amp;&amp; data.results &amp;&amp; data.results.length > 0 ) {
                   for ( let a = 0; a  &lt; data.results.length; ++a ) {
                     if ( a === 0 ) {
                       allergies = data.results[a].display;
@@ -330,6 +334,112 @@
             });
         });
     </script>
+
+    <ifMode mode="VIEW" include="false">
+        <script type="text/javascript">
+
+            htmlForm.getBeforeValidation().push(function() {
+
+                var valid = true;
+
+                // validate medication section
+                jq('fieldset.medication').each(function() {
+
+                    // clear out any existing error messages
+                    jq(this).find('.field-error').first().html('');
+
+                    // The value should be in the format of Drug:DRUG_ID
+                    var medication = jq(this).find('.medication-name input[type=hidden]').val();
+                    var containerNumber = jq(this).find('.container-number input').val();
+                    var dose = false;
+                    var doseUnits = jq(this).find('.dose-unit select').val();
+                    var frequency = false;
+                    var duration = jq(this).find('.duration input').val();
+                    var durationUnits = jq(this).find('.duration-unit select').val();
+                    var instructions = jq(this).find('.medication-instructions input').val();
+
+                    jq(this).find('.dose input').each(function(index) {
+                        dose = jq(this).val();
+                        if (dose) {
+                          return false;
+                        }
+                    });
+
+                    jq(this).find('.frequency input[type=checkbox]').each(function(index) {
+                        frequency = this.checked;
+                        if (frequency) {
+                          //just to break the each() loop
+                          return false;
+                        }
+                    });
+
+                    if (!medication &amp;&amp; (containerNumber || dose || doseUnits || frequency || duration || durationUnits || instructions)) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage code="pihcore.visitNote.plan.medications.error.noMedication"/>. ").show();
+                    }
+
+                    if (dose &amp;&amp; !doseUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage code="pihcore.visitNote.plan.medications.error.noDoseUnits"/>. ").show();
+                    }
+
+                    if (!dose &amp;&amp; doseUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage code="pihcore.visitNote.plan.medications.error.noDose"/>. ").show();
+                    }
+
+                    if (duration &amp;&amp; !durationUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage code="pihcore.visitNote.plan.medications.error.noDurationUnits"/>. ").show();
+                    }
+
+                    if (!duration &amp;&amp; durationUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage code="pihcore.visitNote.plan.medications.error.noDuration"/>. ").show();
+                    }
+                });
+
+                return valid;
+            });
+
+            jq(function() {
+
+                var hasValue = function(element) {
+                    return jq(element).find('.medication-name input').val();
+                };
+
+                var hideOtherMeds = function() {
+                    jq('#medication-2').hide();
+                    jq('#medication-3').hide();
+                    jq('#medication-4').hide();
+                    jq('#medication-5').hide();
+                    jq('#medication-6').hide();
+                    jq('#medication-7').hide();
+                    jq('#medication-8').hide();
+                };
+
+                if (!hasValue('#medication-2') &amp;&amp; !hasValue('#medication-3') &amp;&amp; !hasValue('#medication-4')
+                    &amp;&amp; !hasValue('#medication-5') &amp;&amp; !hasValue('#medication-6') &amp;&amp;
+                    !hasValue('#medication-7')
+                    &amp;&amp; !hasValue('#medication-8')) {
+                        hideOtherMeds();
+                        jq('#show-more-medications-button').show();
+                }
+
+                jq('#show-more-medications-button').click(function() {
+                    jq('.medication').show();
+                    jq('#show-more-medications-button').hide();
+                    jq('#show-less-medications-button').show();
+                });
+
+                jq('#show-less-medications-button').click(function() {
+                    hideOtherMeds();
+                    jq('#show-less-medications-button').hide();
+                    jq('#show-more-medications-button').show();
+                });
+            })
+        </script>
+    </ifMode>
 
     <div class="print-form-datestamps" style="display:none">
         <p><uimessage code="created_on"/>:
@@ -2046,7 +2156,7 @@
                                             <div class="small-text">
                                                 <p class="inline">
                                                     <span style="white-space: nowrap">
-                                                            <obs id="amount{0}-1" class="medication-amount" conceptId="PIH:9073"/>&amp;nbsp;&amp;nbsp;
+                                                            <obs id="amount{0}-1" class="medication-amount dose" conceptId="PIH:9073"/>&amp;nbsp;&amp;nbsp;
                                                     </span>
                                                 </p>
                                             </div>
@@ -2055,7 +2165,7 @@
                                                     <span style="white-space: nowrap">
                                                             <obs
                                                                     id="dosingUnit-1"
-                                                                    class="medication-dose-unit"
+                                                                    class="medication-dose-unit dose-unit"
                                                                     conceptId="PIH:Dosing units coded"
                                                                     answerConceptIds="$puff,$milliGram,$milliLiter,$capsule,$tablet"
                                                                     answerCodes="soplo,mg,mL,capsula,tableta"
@@ -2083,6 +2193,7 @@
                                         <p class="inline-timing">
                                             <obs conceptId="PIH:Part of the day"
                                                  style="checkbox"
+                                                 class="frequency"
                                                  answerConceptId="$inTheMorning"
                                                  answerLabel="Mañana"
                                                  showCommentField="true"
@@ -2091,6 +2202,7 @@
                                         <p class="inline-timing">
                                             <obs conceptId="PIH:Part of the day"
                                                  style="checkbox"
+                                                 class="frequency"
                                                  answerConceptId="$atNoon"
                                                  answerLabel="Medio dia"
                                                  showCommentField="true"
@@ -2099,6 +2211,7 @@
                                         <p class="inline-timing">
                                             <obs conceptId="PIH:Part of the day"
                                                  style="checkbox"
+                                                 class="frequency"
                                                  answerConceptId="$inTheAfternoon"
                                                  answerLabel="Tarde"
                                                  showCommentField="true"
@@ -2107,6 +2220,7 @@
                                         <p class="inline-timing">
                                             <obs conceptId="PIH:Part of the day"
                                                  style="checkbox"
+                                                 class="frequency"
                                                  answerConceptId="$inTheEvening"
                                                  answerLabel="Noche"
                                                  showCommentField="true"
@@ -2127,7 +2241,7 @@
                                             <div class="small-text">
                                                 <p class="inline">
                                                     <span style="white-space: nowrap">
-                                                        <obs id="amount{0}-2" class="medication-amount" conceptId="PIH:14824"/>&amp;nbsp;&amp;nbsp;
+                                                        <obs id="amount{0}-2" class="medication-amount dose" conceptId="PIH:14824"/>&amp;nbsp;&amp;nbsp;
                                                     </span>
                                                 </p>
                                             </div>
@@ -2136,7 +2250,7 @@
                                                     <span style="white-space: nowrap">
                                                         <obs
                                                                 id="dosingUnit-2"
-                                                                class="medication-dose-unit"
+                                                                class="medication-dose-unit dose-unit"
                                                                 conceptId="PIH:14825"
                                                                 answerConceptIds="$puff,$milliGram,$milliLiter,$capsule,$tablet"
                                                                 answerCodes="soplo,mg,mL,capsula,tableta"
@@ -2164,6 +2278,7 @@
                                         <p class="inline-timing">
                                             <obs conceptId="PIH:14823"
                                                  style="checkbox"
+                                                 class="frequency"
                                                  answerConceptId="$inTheMorning"
                                                  answerLabel="Mañana"
                                                  showCommentField="true"
@@ -2172,6 +2287,7 @@
                                         <p class="inline-timing">
                                             <obs conceptId="PIH:14823"
                                                  style="checkbox"
+                                                 class="frequency"
                                                  answerConceptId="$atNoon"
                                                  answerLabel="Medio dia"
                                                  showCommentField="true"
@@ -2180,6 +2296,7 @@
                                         <p class="inline-timing">
                                             <obs conceptId="PIH:14823"
                                                  style="checkbox"
+                                                 class="frequency"
                                                  answerConceptId="$inTheAfternoon"
                                                  answerLabel="Tarde"
                                                  showCommentField="true"
@@ -2188,6 +2305,7 @@
                                         <p class="inline-timing">
                                             <obs conceptId="PIH:14823"
                                                  style="checkbox"
+                                                 class="frequency"
                                                  answerConceptId="$inTheEvening"
                                                  answerLabel="Noche"
                                                  showCommentField="true"
@@ -2214,9 +2332,9 @@
                                             -->
                                         </div>
                                         <div id="duration-details{0}" class="list-inline">
-                                            <obs id="duration{0}" class="medication-duration" conceptId="PIH:9075"/>
+                                            <obs id="duration{0}" class="medication-duration duration" conceptId="PIH:9075"/>
                                             <!-- ToDo: replace uuid with PIH:20022 -->
-                                            <obs id="durationUnits{0}" class="medication-units"
+                                            <obs id="durationUnits{0}" class="medication-units duration-unit"
                                                  conceptId="PIH:TIME UNITS"
                                                  answerConceptIds="PIH:Minutes,PIH:Hours,PIH:Days,PIH:Weeks,PIH:Months,PIH:YEARS,CIEL:162582,d1b0ef4a-dafd-4c06-ba87-daa4e47086dd"/>
                                         </div>
