@@ -397,6 +397,10 @@
                         valid = false;
                         jq(this).find('.field-error').first().append("<uimessage code="pihcore.visitNote.plan.medications.error.noDuration"/>. ").show();
                     }
+                    if ( !valid ) {
+                        jq(document).scrollTop(jq(this).find('.field-error').offset().top - 100);
+                        return valid;
+                    }
                 });
 
                 return valid;
