@@ -17,7 +17,7 @@ designs:
   - type: "excel"
     template: "templates/historiaClinica.xls"
     properties:
-      "repeatingSections": "sheet:1,dataset:historiaClinica"    
+      repeatingSections: "sheet:1,dataset:historiaClinica"
 config:
   category: "dataExport"
   order: 12
